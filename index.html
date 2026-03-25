@@ -25,8 +25,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
   padding-top:calc(var(--safe-top) + 0px);}
 .screen{display:none;padding:0 0 calc(var(--safe-bottom) + 68px);}
 .screen.active{display:block;}
-
-/* NAV BAR iOS */
 .topbar{position:sticky;top:0;z-index:100;
   background:var(--tab-bg);backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
@@ -34,8 +32,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
   padding:12px 16px 10px;text-align:center;}
 .topbar h1{font-size:17px;font-weight:600;letter-spacing:-0.02em;}
 .topbar p{font-size:12px;color:var(--text2);margin-top:1px;}
-
-/* TAB BAR */
 .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:200;
   background:var(--tab-bg);backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
@@ -47,8 +43,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
   font-size:10px;font-weight:500;-webkit-appearance:none;}
 .tab.active{color:var(--tint);}
 .tab svg{width:24px;height:24px;}
-
-/* CARDS */
 .section{padding:20px 16px 0;}
 .section-title{font-size:13px;font-weight:600;color:var(--text2);
   text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;padding:0 4px;}
@@ -56,11 +50,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
 .card-row{display:flex;align-items:center;justify-content:space-between;
   padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .card-row:last-child{border-bottom:none;}
-.row-label{font-size:16px;}
-.row-val{font-size:16px;font-weight:500;color:var(--tint);}
-.row-note{font-size:12px;color:var(--text2);margin-top:1px;}
-
-/* INPUT */
 .input-wrap{padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .input-wrap:last-child{border-bottom:none;}
 .input-wrap label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;}
@@ -68,40 +57,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
   border:0.5px solid var(--border);border-radius:8px;
   background:var(--bg);color:var(--text);-webkit-appearance:none;outline:none;}
 .input-hint{font-size:11px;color:var(--text2);margin-top:4px;}
-
-/* BUTTONS */
 .btn{display:block;width:calc(100% - 32px);margin:12px 16px 0;
   padding:14px;font-size:16px;font-weight:600;
   border:none;border-radius:12px;cursor:pointer;-webkit-appearance:none;}
 .btn-primary{background:var(--tint);color:#fff;}
 .btn-green{background:var(--green);color:#fff;}
-.btn-red{background:var(--red);color:#fff;}
-.btn-sm{font-size:13px;padding:8px 14px;border-radius:8px;border:none;cursor:pointer;}
 .btn:active{transform:scale(0.98);}
-
-/* SUMMARY CARDS */
 .sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;}
 .sum-card{background:var(--card);border-radius:12px;padding:12px 14px;}
 .sum-label{font-size:12px;color:var(--text2);}
 .sum-val{font-size:20px;font-weight:700;margin-top:2px;letter-spacing:-0.02em;}
-
-/* PROGRESS */
 .prog-wrap{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:6px 0;}
 .prog-bar{height:100%;border-radius:3px;transition:width .5s;}
-
-/* BADGE */
 .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;
   border-radius:20px;margin-left:6px;}
 .badge-blue{background:#E1F0FF;color:#007AFF;}
 .badge-green{background:#E5F8EC;color:#1C7C34;}
-.badge-orange{background:#FFF3E0;color:#C76B00;}
 @media(prefers-color-scheme:dark){
   .badge-blue{background:#0A3060;color:#6AB4FF;}
   .badge-green{background:#0A2E14;color:#30D158;}
-  .badge-orange{background:#3D2600;color:#FFB340;}
 }
-
-/* HEADER CARD */
 .hero{margin:16px;background:linear-gradient(135deg,#007AFF,#5856D6);
   border-radius:16px;padding:20px;color:#fff;position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;right:-20px;top:-20px;
@@ -109,33 +84,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
 .hero h2{font-size:13px;opacity:.75;font-weight:500;}
 .hero .big{font-size:32px;font-weight:700;letter-spacing:-0.04em;margin:4px 0;}
 .hero .sub{font-size:13px;opacity:.75;}
-
-/* TOAST */
 #toast{position:fixed;top:calc(var(--safe-top) + 12px);left:50%;transform:translateX(-50%) translateY(-80px);
   background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;
   z-index:999;transition:transform .3s ease;white-space:nowrap;max-width:90vw;}
 #toast.show{transform:translateX(-50%) translateY(0);}
 #toast.ok{background:#1C7C34;}
 #toast.err{background:var(--red);}
-
-/* DELETE btn */
 .del-btn{background:none;border:none;color:var(--red);font-size:22px;cursor:pointer;padding:0 4px;line-height:1;}
 input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px rgba(0,122,255,.15);}
-
 .center-empty{text-align:center;padding:60px 20px;color:var(--text2);}
-.add-btn{
-  width:100%;padding:10px;font-size:14px;border:1px dashed var(--tint);
-  border-radius:8px;background:none;color:var(--tint);cursor:pointer;
-}
+.add-btn{width:100%;padding:10px;font-size:14px;border:1px dashed var(--tint);
+  border-radius:8px;background:none;color:var(--tint);cursor:pointer;}
 .chart-shell{padding:16px;}
 .ring-wrap{display:flex;align-items:center;justify-content:center;padding:10px 0 4px;}
-.ring{
-  width:180px;height:180px;border-radius:50%;
-  display:grid;place-items:center;position:relative;
-}
-.ring::before{
-  content:'';position:absolute;inset:18px;border-radius:50%;background:var(--card);
-}
+.ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;position:relative;}
+.ring::before{content:'';position:absolute;inset:18px;border-radius:50%;background:var(--card);}
 .ring-inner{position:relative;z-index:2;text-align:center;padding:0 18px;}
 .ring-big{font-size:28px;font-weight:700;letter-spacing:-0.03em;}
 .ring-sub{font-size:12px;color:var(--text2);margin-top:2px;}
@@ -147,34 +110,29 @@ input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px
 </style>
 </head>
 <body>
-
+ 
 <div id="toast"></div>
-
-<!-- ═══════ TABLEAU DE BORD ═══════ -->
+ 
 <div class="screen active" id="screen-home">
   <div class="topbar"><h1>Mon Budget</h1><p id="home-subtitle">Chargement…</p></div>
   <div id="home-body"></div>
 </div>
-
-<!-- ═══════ SAISIE ═══════ -->
+ 
 <div class="screen" id="screen-saisie">
   <div class="topbar"><h1>✏️ Saisie de la semaine</h1></div>
   <div id="saisie-body"></div>
 </div>
-
-<!-- ═══════ HISTORIQUE ═══════ -->
+ 
 <div class="screen" id="screen-hist">
   <div class="topbar"><h1>📅 Historique</h1></div>
   <div id="hist-body"></div>
 </div>
-
-<!-- ═══════ PARAMÈTRES ═══════ -->
+ 
 <div class="screen" id="screen-params">
   <div class="topbar"><h1>⚙️ Paramètres</h1></div>
   <div id="params-body"></div>
 </div>
-
-<!-- ═══════ TAB BAR ═══════ -->
+ 
 <nav class="tabbar">
   <button class="tab active" onclick="showTab('home')" id="tab-home">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -193,11 +151,10 @@ input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px
     Réglages
   </button>
 </nav>
-
+ 
 <script>
-// ── DATA ──────────────────────────────────
 const STORE_P = 'mbp5', STORE_E = 'mbe5'
-
+ 
 const DEF_PARAMS = {
   revenus_fixes: [
     {id:'r1', label:'Salaire net / semaine', montant:704.79, periode:'hebdo'},
@@ -218,15 +175,13 @@ const DEF_PARAMS = {
   epargne_h: 12.50,
   dep_var_cible: 200,
 }
-
+ 
 let params = JSON.parse(JSON.stringify(DEF_PARAMS))
 let entries = []
-
-// compatibilité ancienne version
+ 
 function migrateParams(p){
   if(!p) return JSON.parse(JSON.stringify(DEF_PARAMS))
   const out = JSON.parse(JSON.stringify(p))
-
   if(!Array.isArray(out.revenus_fixes)){
     out.revenus_fixes = [
       {id:'r1', label:'Salaire net / semaine', montant:+(out.salaire_hebdo||0), periode:'hebdo'},
@@ -234,174 +189,128 @@ function migrateParams(p){
       {id:'r3', label:'Allocation famille Québec', montant:+(out.alloc_qc||0), periode:'trimestriel'},
     ]
   }
-
   if(!Array.isArray(out.factures)) out.factures = JSON.parse(JSON.stringify(DEF_PARAMS.factures))
   if(!Array.isArray(out.cartes)) out.cartes = JSON.parse(JSON.stringify(DEF_PARAMS.cartes))
-
   out.cartes = out.cartes.map((c,i)=>({
-    id:c.id || ('c'+(i+1)),
-    nom:c.nom || ('Carte '+(i+1)),
+    id:c.id||('c'+(i+1)), nom:c.nom||('Carte '+(i+1)),
     solde_init:+(c.solde_init||0),
-    limite:+(c.limite || Math.max((+(c.solde_init||0))*1.2, +(c.solde_init||0), 1000)),
-    taux:+(c.taux||0),
-    min_h:+(c.min_h||0),
+    limite:+(c.limite||Math.max((+(c.solde_init||0))*1.2,+(c.solde_init||0),1000)),
+    taux:+(c.taux||0), min_h:+(c.min_h||0),
   }))
-
   out.factures = out.factures.map((f,i)=>({
-    id:f.id || ('f'+(i+1)),
-    label:f.label || ('Facture '+(i+1)),
-    montant:+(f.montant||0),
+    id:f.id||('f'+(i+1)), label:f.label||('Facture '+(i+1)), montant:+(f.montant||0),
   }))
-
   out.revenus_fixes = out.revenus_fixes.map((r,i)=>({
-    id:r.id || ('r'+(i+1)),
-    label:r.label || ('Revenu '+(i+1)),
-    montant:+(r.montant||0),
-    periode:['hebdo','mensuel','trimestriel'].includes(r.periode) ? r.periode : 'hebdo',
+    id:r.id||('r'+(i+1)), label:r.label||('Revenu '+(i+1)), montant:+(r.montant||0),
+    periode:['hebdo','mensuel','trimestriel'].includes(r.periode)?r.periode:'hebdo',
   }))
-
   out.epargne_h = +(out.epargne_h||0)
   out.dep_var_cible = +(out.dep_var_cible||0)
-
-  delete out.salaire_hebdo
-  delete out.alloc_can
-  delete out.alloc_qc
-
+  delete out.salaire_hebdo; delete out.alloc_can; delete out.alloc_qc
   return out
 }
-
-// Stockage robuste — localStorage si disponible, sinon mémoire
+ 
 const _mem = {}
 function save(key, val){
   try{ localStorage.setItem(key, JSON.stringify(val)) }catch(e){ _mem[key]=JSON.stringify(val) }
 }
 function load(key){
-  try{
-    const v = localStorage.getItem(key) || _mem[key]
-    return v ? JSON.parse(v) : null
-  }catch(e){ try{ return _mem[key]?JSON.parse(_mem[key]):null }catch(e2){return null} }
+  try{ const v=localStorage.getItem(key)||_mem[key]; return v?JSON.parse(v):null }
+  catch(e){ try{ return _mem[key]?JSON.parse(_mem[key]):null }catch(e2){return null} }
 }
-
+ 
 function init(){
-  const p = load(STORE_P)
-  const legacyP = load('mbp4')
-  params = migrateParams(p || legacyP || DEF_PARAMS)
-
-  const e = load(STORE_E)
-  const legacyE = load('mbe4')
-  entries = e || legacyE || []
-
+  const p=load(STORE_P), legacyP=load('mbp4')
+  params=migrateParams(p||legacyP||DEF_PARAMS)
+  const e=load(STORE_E), legacyE=load('mbe4')
+  entries=e||legacyE||[]
   renderAll()
 }
-
-// ── CALC ──────────────────────────────────
+ 
 function revenuHebdo(r){
-  const m = +(r.montant||0)
+  const m=+(r.montant||0)
   if(r.periode==='hebdo') return m
   if(r.periode==='mensuel') return m/4
   if(r.periode==='trimestriel') return m/13
   return m
 }
-function rev_h(){
-  return params.revenus_fixes.reduce((s,r)=>s+revenuHebdo(r),0)
-}
+function rev_h(){ return params.revenus_fixes.reduce((s,r)=>s+revenuHebdo(r),0) }
 function fact_m(){ return params.factures.reduce((s,f)=>s+(+f.montant||0),0) }
 function fact_h(){ return fact_m()/4 }
-
+ 
 function soldes(){
   return params.cartes.map(c=>{
-    const a = entries.reduce((s,e)=>s+(e.cartes?.find(x=>x.id===c.id)?.achats||0),0)
-    const p = entries.reduce((s,e)=>s+(e.cartes?.find(x=>x.id===c.id)?.paiement||0),0)
-    return {...c, solde: Math.max(0, c.solde_init+a-p)}
+    const a=entries.reduce((s,e)=>s+(e.cartes?.find(x=>x.id===c.id)?.achats||0),0)
+    const p=entries.reduce((s,e)=>s+(e.cartes?.find(x=>x.id===c.id)?.paiement||0),0)
+    return {...c, solde:Math.max(0,c.solde_init+a-p)}
   })
 }
-
-function snowball(){
-  return soldes().filter(c=>c.solde>0).sort((a,b)=>a.solde-b.solde)
-}
-
+function snowball(){ return soldes().filter(c=>c.solde>0).sort((a,b)=>a.solde-b.solde) }
 function attack_h(){
-  const sb = snowball()
-  if(!sb.length) return 0
-  const min_others = sb.slice(1).reduce((s,c)=>s+c.min_h,0)
+  const sb=snowball(); if(!sb.length) return 0
+  const min_others=sb.slice(1).reduce((s,c)=>s+c.min_h,0)
   return Math.max(sb[0].min_h, rev_h()-fact_h()-params.dep_var_cible-min_others-params.epargne_h)
 }
-
 function creditStats(){
-  const s = soldes()
-  const limiteTotale = s.reduce((sum,c)=>sum + Math.max(0,+c.limite||0), 0)
-  const utilise = s.reduce((sum,c)=>sum + Math.max(0,+c.solde||0), 0)
-  const libre = Math.max(0, limiteTotale - utilise)
-  const pctLibre = limiteTotale>0 ? (libre/limiteTotale)*100 : 0
-  return { limiteTotale, utilise, libre, pctLibre, cartes:s }
+  const s=soldes()
+  const limiteTotale=s.reduce((sum,c)=>sum+(+c.limite||0),0)
+  const utilise=s.reduce((sum,c)=>sum+(+c.solde||0),0)
+  const libre=Math.max(0,limiteTotale-utilise)
+  const pctLibre=limiteTotale>0?(libre/limiteTotale)*100:0
+  return {limiteTotale,utilise,libre,pctLibre,cartes:s}
 }
-
-// ── FORMAT ──────────────────────────────
+ 
 function fmt(n){
-  const v=+n||0, a=Math.abs(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,' ')
+  const v=+n||0,a=Math.abs(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,' ')
   return `${v<0?'-':''}${a} $`
 }
 function clr(v){ return v>=0?'var(--green)':'var(--red)' }
 function esc(s){
-  return String(s ?? '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;')
+  return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')
 }
-
-// ── DATE AUTO ───────────────────────────
-function defaultWeekLabel(d = new Date()){
-  const date = new Date(d)
-  const day = date.getDay() // 0 dimanche
-  const diff = day===0 ? -6 : 1-day
+function defaultWeekLabel(d=new Date()){
+  const date=new Date(d), day=date.getDay(), diff=day===0?-6:1-day
   date.setDate(date.getDate()+diff)
-  const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
+  const mois=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
   return `semaine du ${date.getDate()} ${mois[date.getMonth()]} ${date.getFullYear()}`
 }
-
-// ── NAVIGATION ──────────────────────────
+ 
 function showTab(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'))
   document.getElementById('screen-'+name).classList.add('active')
   document.getElementById('tab-'+name).classList.add('active')
-  const renders = {home:renderHome, saisie:renderSaisie, hist:renderHist, params:renderParams}
+  const renders={home:renderHome,saisie:renderSaisie,hist:renderHist,params:renderParams}
   renders[name]&&renders[name]()
 }
-
-// ── TOAST ──────────────────────────────
-function toast(msg, ok=true){
+function toast(msg,ok=true){
   const t=document.getElementById('toast')
   t.textContent=msg; t.className='show '+(ok?'ok':'err')
   setTimeout(()=>t.className='',2200)
 }
-
-// ── RENDER HOME ─────────────────────────
+ 
+// ── TABLEAU ──
 function renderHome(){
-  const sb = snowball()
-  const tots = soldes()
-  const totalDette = tots.reduce((s,c)=>s+c.solde,0)
-  const totalInit = params.cartes.reduce((s,c)=>s+c.solde_init,0)
-  const pct = totalInit>0 ? Math.min(100,(1-totalDette/totalInit)*100) : 100
-  const totalEp = entries.reduce((s,e)=>s+(e.epargne||0),0)
-  const atk = attack_h()
-  const min_others = sb.length>1 ? sb.slice(1).reduce((s,c)=>s+c.min_h,0) : 0
-  const pay_m = (atk + min_others) * 4
-  const months = pay_m>0&&totalDette>0 ? Math.ceil(totalDette/pay_m) : 0
-  const rh = rev_h(), fh = fact_h()
-  const reste = rh - fh - params.dep_var_cible - atk - min_others - params.epargne_h
-  const cs = creditStats()
-
-  document.getElementById('home-subtitle').textContent =
-    `${fmt(rh)}/sem · Dettes: ${fmt(totalDette)}`
-
-  const ringPct = Math.max(0, Math.min(100, cs.pctLibre))
-  const ringStyle = `conic-gradient(var(--green) 0 ${ringPct}%, var(--border) ${ringPct}% 100%)`
-
-  let html = `
-  <div class="hero" style="margin:16px;">
+  const sb=snowball(), tots=soldes()
+  const totalDette=tots.reduce((s,c)=>s+c.solde,0)
+  const totalInit=params.cartes.reduce((s,c)=>s+c.solde_init,0)
+  const pct=totalInit>0?Math.min(100,(1-totalDette/totalInit)*100):100
+  const totalEp=entries.reduce((s,e)=>s+(e.epargne||0),0)
+  const atk=attack_h()
+  const min_others=sb.length>1?sb.slice(1).reduce((s,c)=>s+c.min_h,0):0
+  const pay_m=(atk+min_others)*4
+  const months=pay_m>0&&totalDette>0?Math.ceil(totalDette/pay_m):0
+  const rh=rev_h(), fh=fact_h()
+  const reste=rh-fh-params.dep_var_cible-atk-min_others-params.epargne_h
+  const cs=creditStats()
+  document.getElementById('home-subtitle').textContent=`${fmt(rh)}/sem · Dettes: ${fmt(totalDette)}`
+  const pctUtilise=Math.max(0,Math.min(100,100-cs.pctLibre))
+  const ringColor=pctUtilise>80?'var(--red)':pctUtilise>50?'var(--orange)':pctUtilise>30?'#FFCC00':'var(--green)'
+  const ringPct=pctUtilise
+  const ringStyle=`conic-gradient(${ringColor} 0 ${ringPct}%, var(--border) ${ringPct}% 100%)`
+ 
+  let html=`
+  <div class="hero">
     <h2>Dettes totales</h2>
     <div class="big">${fmt(totalDette)}</div>
     <div class="prog-wrap" style="height:8px;background:rgba(255,255,255,.25);margin:10px 0 6px;">
@@ -409,7 +318,6 @@ function renderHome(){
     </div>
     <div class="sub">${pct.toFixed(0)}% remboursé · libre dans ~${months||'—'} mois</div>
   </div>
-
   <div class="sum-grid" style="margin-bottom:8px;">
     <div class="sum-card"><div class="sum-label">Revenu / sem.</div>
       <div class="sum-val" style="color:var(--green)">${fmt(rh)}</div></div>
@@ -420,7 +328,6 @@ function renderHome(){
     <div class="sum-card"><div class="sum-label">Reste estimé / sem.</div>
       <div class="sum-val" style="color:${clr(reste)}">${fmt(reste)}</div></div>
   </div>
-
   <div class="section">
     <div class="section-title">💳 Crédit libre total</div>
     <div class="card">
@@ -429,99 +336,67 @@ function renderHome(){
           <div class="ring" style="background:${ringStyle};">
             <div class="ring-inner">
               <div class="ring-big">${ringPct.toFixed(0)}%</div>
-              <div class="ring-sub">crédit libre</div>
+              <div class="ring-sub">crédit utilisé</div>
             </div>
           </div>
         </div>
-
         <div class="small-grid">
-          <div class="small-chip">
-            <div class="l">Limite totale</div>
-            <div class="v">${fmt(cs.limiteTotale)}</div>
-          </div>
-          <div class="small-chip">
-            <div class="l">Utilisé</div>
-            <div class="v" style="color:var(--orange)">${fmt(cs.utilise)}</div>
-          </div>
-          <div class="small-chip">
-            <div class="l">Disponible</div>
-            <div class="v" style="color:var(--green)">${fmt(cs.libre)}</div>
-          </div>
-          <div class="small-chip">
-            <div class="l">Taux d'utilisation</div>
-            <div class="v" style="color:var(--tint)">${(100-ringPct).toFixed(0)}%</div>
-          </div>
+          <div class="small-chip"><div class="l">Limite totale</div><div class="v">${fmt(cs.limiteTotale)}</div></div>
+          <div class="small-chip"><div class="l">Utilisé</div><div class="v" style="color:var(--orange)">${fmt(cs.utilise)}</div></div>
+          <div class="small-chip"><div class="l">Disponible</div><div class="v" style="color:var(--green)">${fmt(cs.libre)}</div></div>
+          <div class="small-chip"><div class="l">Taux d'utilisation</div><div class="v" style="color:var(--tint)">${(100-ringPct).toFixed(0)}%</div></div>
         </div>
-
-        <div style="margin-top:12px;">
-          ${cs.cartes.map(c=>{
-            const libre = Math.max(0,(+c.limite||0)-(+c.solde||0))
-            const p = (+c.limite||0)>0 ? Math.max(0,Math.min(100,(libre/(+c.limite||1))*100)) : 0
-            return `
-              <div style="margin-top:10px;">
-                <div style="display:flex;justify-content:space-between;gap:8px;font-size:13px;">
-                  <span>${esc(c.nom)}</span>
-                  <span>${fmt(libre)} libres / ${fmt(c.limite)}</span>
-                </div>
-                <div class="prog-wrap" style="margin-top:6px;">
-                  <div class="prog-bar" style="width:${p.toFixed(0)}%;background:${p<20?'var(--red)':p<40?'var(--orange)':'var(--green)'};"></div>
-                </div>
-              </div>
-            `
-          }).join('')}
-        </div>
+ 
       </div>
     </div>
   </div>
-
   <div class="section">
     <div class="section-title">⛄ Priorités — boule de neige</div>`
-
+ 
   if(sb.length===0){
-    html += `<div class="card"><div class="card-row" style="justify-content:center;flex-direction:column;gap:6px;padding:24px;">
+    html+=`<div class="card"><div class="card-row" style="justify-content:center;flex-direction:column;gap:6px;padding:24px;">
       <div style="font-size:36px;">🎉</div>
       <div style="font-weight:700;font-size:17px;color:var(--green)">Toutes les cartes remboursées !</div>
       <div style="font-size:13px;color:var(--text2)">Continue à épargner !</div>
     </div></div>`
   } else {
-    html += `<div class="card">`
+    html+=`<div class="card">`
     sb.forEach((c,i)=>{
-      const p2 = Math.min(100,Math.max(0,(1-c.solde/c.solde_init)*100))
-      const isAtk = i===0
-      const rec = isAtk ? atk : c.min_h
-      const intm = c.solde*c.taux/100/12
-      const barColor = isAtk ? 'var(--tint)' : 'var(--green)'
-      html += `<div class="card-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+      const limite=+c.limite||+c.solde_init||1
+      const pctUtilise=Math.min(100,Math.max(0,(c.solde/limite)*100))
+      const isAtk=i===0
+      const rec=isAtk?atk:c.min_h
+      const intm=c.solde*c.taux/100/12
+      // COULEURS : vert 0-30%, jaune 31-50%, orange 51-80%, rouge 81-100%
+      const barColor=pctUtilise>80?'var(--red)':pctUtilise>50?'var(--orange)':pctUtilise>30?'#FFCC00':'var(--green)'
+      html+=`<div class="card-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
         <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
           <div>
             <span style="font-size:16px;font-weight:500;">${esc(c.nom)}</span>
             <span class="badge ${isAtk?'badge-blue':'badge-green'}">${isAtk?'⛄ Priorité 1':'Priorité '+(i+1)}</span>
           </div>
-          <span style="font-size:16px;font-weight:600;">${fmt(c.solde)}</span>
+          <span style="font-size:16px;font-weight:600;">${fmt(limite)}</span>
         </div>
         <div class="prog-wrap" style="width:100%;margin:0;">
-          <div class="prog-bar" style="width:${p2.toFixed(0)}%;background:${barColor};"></div>
+          <div class="prog-bar" style="width:${pctUtilise.toFixed(0)}%;background:${barColor};"></div>
         </div>
         <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;color:var(--text2);">
-          <span>${p2.toFixed(0)}% · ${fmt(intm)}/mois d'intérêts</span>
+          <span style="color:${barColor};font-weight:600;">${pctUtilise.toFixed(0)}% utilisé · ${fmt(c.solde)} / ${fmt(limite)}</span>
           <span style="font-weight:600;color:var(--tint)">Verser ${fmt(rec)}/sem</span>
         </div>
+        <div style="font-size:11px;color:var(--text2);width:100%;text-align:right;">${fmt(intm)}/mois d'intérêts</div>
       </div>`
     })
-    html += `</div>`
+    html+=`</div>`
   }
-
-  html += `<div style="height:8px;"></div></div>`
-  document.getElementById('home-body').innerHTML = html
+  html+=`<div style="height:8px;"></div></div>`
+  document.getElementById('home-body').innerHTML=html
 }
-
-// ── RENDER SAISIE ───────────────────────
+ 
+// ── SAISIE ──
 function renderSaisie(){
-  const sb = snowball()
-  const atk = attack_h()
-  const autoDate = defaultWeekLabel()
-
-  let html = `
+  const sb=snowball(), atk=attack_h(), autoDate=defaultWeekLabel()
+  let html=`
   <div class="section">
     <div class="section-title">Semaine du</div>
     <div class="card">
@@ -531,7 +406,6 @@ function renderSaisie(){
         <div class="input-hint">Remplie automatiquement selon la semaine courante.</div>
       </div>
     </div>
-
     <div class="section-title">Dépenses variables</div>
     <div class="card">
       <div class="input-wrap">
@@ -540,25 +414,22 @@ function renderSaisie(){
         <div class="input-hint">Cible : ${fmt(params.dep_var_cible)}/sem</div>
       </div>
     </div>
-
     <div class="section-title">Cartes de crédit</div>
     <div class="card">`
-
+ 
   ;[...params.cartes].sort((a,b)=>{
     const ia=sb.findIndex(x=>x.id===a.id), ib=sb.findIndex(x=>x.id===b.id)
     return (ia<0?999:ia)-(ib<0?999:ib)
-  }).forEach((c)=>{
-    const sbIdx = sb.findIndex(x=>x.id===c.id)
-    const isAtk = sbIdx===0 && sb.length>0
-    const rec = isAtk ? atk : c.min_h
-    const sol = soldes().find(x=>x.id===c.id)
-    const libre = Math.max(0,(+c.limite||0) - (+sol?.solde||0))
-    html += `
-    <div class="input-wrap" style="border-bottom:0.5px solid var(--border);">
+  }).forEach(c=>{
+    const isAtk=sb.findIndex(x=>x.id===c.id)===0&&sb.length>0
+    const rec=isAtk?atk:c.min_h
+    const sol=soldes().find(x=>x.id===c.id)
+    const libre=Math.max(0,(+c.limite||0)-(+sol?.solde||0))
+    html+=`<div class="input-wrap" style="border-bottom:0.5px solid var(--border);">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
         <div>
           <span style="font-size:14px;font-weight:600;">${esc(c.nom)}</span>
-          ${isAtk?`<span class="badge badge-blue">⛄ Priorité 1</span>`:''}
+          ${isAtk?'<span class="badge badge-blue">⛄ Priorité 1</span>':''}
         </div>
         <span style="font-size:13px;color:var(--text2)">Solde: ${fmt(sol?.solde||0)}</span>
       </div>
@@ -576,8 +447,7 @@ function renderSaisie(){
       </div>
     </div>`
   })
-  html += `</div>
-
+  html+=`</div>
     <div class="section-title">Épargne</div>
     <div class="card">
       <div class="input-wrap">
@@ -585,36 +455,32 @@ function renderSaisie(){
         <input type="number" inputmode="decimal" id="s-ep" placeholder="${params.epargne_h.toFixed(2)}" value="${params.epargne_h}">
       </div>
     </div>
-
     <div class="section-title">Résumé en temps réel</div>
     <div class="card" id="resume-card"></div>
   </div>
   <button class="btn btn-green" onclick="saveSaisie()">Sauvegarder cette semaine ✓</button>
   <div style="height:8px;"></div>`
-
-  document.getElementById('saisie-body').innerHTML = html
-
-  const inputs = ['s-dep','s-ep',...params.cartes.flatMap(c=>[`a-${c.id}`,`p-${c.id}`])]
+ 
+  document.getElementById('saisie-body').innerHTML=html
+  const inputs=['s-dep','s-ep',...params.cartes.flatMap(c=>[`a-${c.id}`,`p-${c.id}`])]
   inputs.forEach(id=>{ const el=document.getElementById(id); el&&el.addEventListener('input',updateResume) })
   updateResume()
 }
-
+ 
 function updateResume(){
-  const dep = +(document.getElementById('s-dep')?.value||0)
-  const ep  = +(document.getElementById('s-ep')?.value||0)
-  const pays = params.cartes.reduce((s,c)=>s+(+(document.getElementById('p-'+c.id)?.value||0)),0)
-  const rh=rev_h(), fh=fact_h()
-  const reste = rh - fh - dep - pays - ep
-  const rows = [
-    ['Revenus fixes', rh, 'var(--green)'],
-    ['− Factures (part hebdo)', fh, 'var(--tint)'],
-    ['− Dépenses variables', dep, 'var(--orange)'],
-    ['− Paiements cartes', pays, 'var(--red)'],
-    ['− Épargne', ep, 'var(--purple)'],
+  const dep=+(document.getElementById('s-dep')?.value||0)
+  const ep=+(document.getElementById('s-ep')?.value||0)
+  const pays=params.cartes.reduce((s,c)=>s+(+(document.getElementById('p-'+c.id)?.value||0)),0)
+  const rh=rev_h(), fh=fact_h(), reste=rh-fh-dep-pays-ep
+  const rows=[
+    ['Revenus fixes',rh,'var(--green)'],
+    ['− Factures (part hebdo)',fh,'var(--tint)'],
+    ['− Dépenses variables',dep,'var(--orange)'],
+    ['− Paiements cartes',pays,'var(--red)'],
+    ['− Épargne',ep,'var(--purple)'],
   ]
-  const card = document.getElementById('resume-card')
-  if(!card) return
-  card.innerHTML = rows.map(([l,v,c])=>`
+  const card=document.getElementById('resume-card'); if(!card) return
+  card.innerHTML=rows.map(([l,v,c])=>`
     <div class="card-row" style="padding:10px 16px;">
       <span style="font-size:14px;color:var(--text2);">${l}</span>
       <span style="font-size:14px;font-weight:500;color:${c};">${fmt(v)}</span>
@@ -624,44 +490,38 @@ function updateResume(){
     <span style="font-size:18px;font-weight:700;color:${clr(reste)};">${fmt(reste)}</span>
   </div>`
 }
-
+ 
 function saveSaisie(){
-  const date = document.getElementById('s-date')?.value?.trim()
-  if(!date){ toast('Indique la semaine du…', false); return }
-  const dep = +(document.getElementById('s-dep')?.value||0)
-  const ep  = +(document.getElementById('s-ep')?.value||0)
-  const cartes = params.cartes.map(c=>({
+  const date=document.getElementById('s-date')?.value?.trim()
+  if(!date){ toast('Indique la semaine du…',false); return }
+  const dep=+(document.getElementById('s-dep')?.value||0)
+  const ep=+(document.getElementById('s-ep')?.value||0)
+  const cartes=params.cartes.map(c=>({
     id:c.id,
-    achats: +(document.getElementById('a-'+c.id)?.value||0),
-    paiement: +(document.getElementById('p-'+c.id)?.value||0),
+    achats:+(document.getElementById('a-'+c.id)?.value||0),
+    paiement:+(document.getElementById('p-'+c.id)?.value||0),
   }))
-  const entry = {id:Date.now(), date, dep_var:dep, epargne:ep, cartes}
-  entries = [entry, ...entries]
-  save(STORE_E, entries)
+  entries=[{id:Date.now(),date,dep_var:dep,epargne:ep,cartes},...entries]
+  save(STORE_E,entries)
   toast('Semaine sauvegardée ✓')
-  renderSaisie()
-  renderHome()
-  renderHist()
+  renderSaisie(); renderHome(); renderHist()
 }
-
-// ── RENDER HISTORIQUE ───────────────────
+ 
+// ── HISTORIQUE ──
 function renderHist(){
-  let html = ''
+  let html=''
   if(!entries.length){
-    html = `<div class="center-empty">
+    html=`<div class="center-empty">
       <div style="font-size:48px;margin-bottom:12px;">📭</div>
       <div style="font-size:16px;font-weight:500;">Aucune entrée</div>
       <div style="font-size:13px;margin-top:6px;">Utilise l'onglet ✏️ Saisie</div>
     </div>`
-    document.getElementById('hist-body').innerHTML = html; return
+    document.getElementById('hist-body').innerHTML=html; return
   }
-
-  html += `<div class="section"><div class="section-title">Semaines (${entries.length})</div>`
-  html += `<div class="card">`
+  html+=`<div class="section"><div class="section-title">Semaines (${entries.length})</div><div class="card">`
   entries.forEach(e=>{
-    const totalPay = e.cartes?.reduce((s,c)=>s+c.paiement,0)||0
-    html += `
-    <div class="card-row" style="flex-direction:column;align-items:flex-start;gap:4px;" id="entry-${e.id}">
+    const totalPay=e.cartes?.reduce((s,c)=>s+c.paiement,0)||0
+    html+=`<div class="card-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
       <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
         <span style="font-size:15px;font-weight:600;">${esc(e.date||'—')}</span>
         <button class="del-btn" onclick="delEntry(${e.id})">×</button>
@@ -672,37 +532,33 @@ function renderHist(){
         <div style="color:var(--purple)">Épargne ${fmt(e.epargne||0)}</div>
       </div>
       ${(e.cartes||[]).filter(c=>c.paiement>0||c.achats>0).map(c=>{
-        const nom = params.cartes.find(x=>x.id===c.id)?.nom||c.id
-        return `<div style="font-size:12px;color:var(--text2);width:100%;">
-          ${esc(nom)}${c.achats>0?` · Achats ${fmt(c.achats)}`:''}${c.paiement>0?` · Paiement ${fmt(c.paiement)}`:''}
-        </div>`
+        const nom=params.cartes.find(x=>x.id===c.id)?.nom||c.id
+        return `<div style="font-size:12px;color:var(--text2);width:100%;">${esc(nom)}${c.achats>0?` · Achats ${fmt(c.achats)}`:''}${c.paiement>0?` · Paiement ${fmt(c.paiement)}`:''}</div>`
       }).join('')}
     </div>`
   })
-  html += `</div></div>`
-  document.getElementById('hist-body').innerHTML = html
+  html+=`</div></div>`
+  document.getElementById('hist-body').innerHTML=html
 }
-
+ 
 function delEntry(id){
   if(!confirm('Supprimer cette entrée ?')) return
-  entries = entries.filter(e=>e.id!==id)
-  save(STORE_E, entries)
+  entries=entries.filter(e=>e.id!==id)
+  save(STORE_E,entries)
   toast('Entrée supprimée')
-  renderHist()
-  renderHome()
+  renderHist(); renderHome()
 }
-
-// ── RENDER PARAMS ───────────────────────
+ 
+// ── RÉGLAGES ──
 function renderParams(){
-  const rh = rev_h(), fm = fact_m()
-  let html = `
+  const rh=rev_h(), fm=fact_m()
+  let html=`
   <div class="section">
     <div class="section-title">💵 Revenus fixes</div>
     <div class="card" id="revenus-list">`
-
+ 
   params.revenus_fixes.forEach(r=>{
-    html += `
-    <div class="input-wrap" id="rev-${r.id}">
+    html+=`<div class="input-wrap" id="rev-${r.id}">
       <div style="display:grid;grid-template-columns:1fr 110px 110px auto;gap:6px;align-items:center;">
         <input type="text" value="${esc(r.label)}" onchange="updRev('${r.id}','label',this.value)" style="font-size:14px;">
         <input type="number" inputmode="decimal" value="${r.montant}" onchange="updRev('${r.id}','montant',this.value)" style="text-align:right;">
@@ -716,23 +572,21 @@ function renderParams(){
       <div class="input-hint">Équivaut à ${fmt(revenuHebdo(r))}/sem</div>
     </div>`
   })
-
-  html += `
-      <div style="padding:12px 16px;">
-        <button onclick="addRev()" class="add-btn">+ Ajouter un revenu fixe</button>
-      </div>
-      <div class="card-row" style="background:rgba(52,199,89,.08);">
-        <span style="font-size:14px;color:var(--green);font-weight:500;">Total / semaine</span>
-        <span style="font-size:16px;font-weight:700;color:var(--green);">${fmt(rh)}</span>
-      </div>
+ 
+  html+=`<div style="padding:12px 16px;">
+      <button onclick="addRev()" class="add-btn">+ Ajouter un revenu fixe</button>
     </div>
-
+    <div class="card-row" style="background:rgba(52,199,89,.08);">
+      <span style="font-size:14px;color:var(--green);font-weight:500;">Total / semaine</span>
+      <span style="font-size:16px;font-weight:700;color:var(--green);">${fmt(rh)}</span>
+    </div>
+  </div>
+ 
     <div class="section-title">🏠 Factures mensuelles</div>
     <div class="card" id="factures-list">`
-
+ 
   params.factures.forEach(f=>{
-    html += `
-    <div class="input-wrap" id="fact-${f.id}">
+    html+=`<div class="input-wrap" id="fact-${f.id}">
       <div style="display:grid;grid-template-columns:1fr 80px auto;gap:6px;align-items:center;">
         <input type="text" value="${esc(f.label)}" onchange="updFact('${f.id}','label',this.value)" style="font-size:14px;">
         <input type="number" inputmode="decimal" value="${f.montant}" onchange="updFact('${f.id}','montant',this.value)" style="text-align:right;">
@@ -740,8 +594,8 @@ function renderParams(){
       </div>
     </div>`
   })
-  html += `
-    <div style="padding:12px 16px;">
+ 
+  html+=`<div style="padding:12px 16px;">
       <button onclick="addFact()" class="add-btn">+ Ajouter une facture</button>
     </div>
     <div class="card-row" style="background:rgba(0,122,255,.06);">
@@ -749,15 +603,14 @@ function renderParams(){
       <span style="font-size:16px;font-weight:700;color:var(--tint);">${fmt(fm)} → ${fmt(fm/4)}/sem</span>
     </div>
   </div>
-
+ 
     <div class="section-title">💳 Cartes de crédit</div>
     <div id="cartes-list">`
-
+ 
   params.cartes.forEach(c=>{
-    const solActuel = soldes().find(x=>x.id===c.id)?.solde||0
-    const libre = Math.max(0,(+c.limite||0)-solActuel)
-    html += `
-    <div class="card" style="margin-bottom:8px;">
+    const solActuel=soldes().find(x=>x.id===c.id)?.solde||0
+    const libre=Math.max(0,(+c.limite||0)-solActuel)
+    html+=`<div class="card" style="margin-bottom:8px;">
       <div class="card-row">
         <span style="font-weight:600;font-size:15px;">${esc(c.nom)}</span>
         <button class="del-btn" onclick="delCarte('${c.id}')">×</button>
@@ -792,11 +645,10 @@ function renderParams(){
       </div>
     </div>`
   })
-
-  html += `
-      <button onclick="addCarte()" class="add-btn">+ Ajouter une carte de crédit</button>
+ 
+  html+=`<button onclick="addCarte()" class="add-btn" style="margin-bottom:8px;">+ Ajouter une carte de crédit</button>
     </div>
-
+ 
     <div class="section-title">🎯 Objectifs hebdo</div>
     <div class="card">
       <div class="input-wrap">
@@ -811,84 +663,45 @@ function renderParams(){
   </div>
   <button class="btn btn-primary" onclick="saveParams()">Sauvegarder les réglages ✓</button>
   <div style="height:8px;"></div>`
-
-  document.getElementById('params-body').innerHTML = html
+ 
+  document.getElementById('params-body').innerHTML=html
 }
-
-function updRev(id, field, val){
-  params.revenus_fixes = params.revenus_fixes.map(r=>r.id===id?{
-    ...r,
-    [field]: field==='montant' ? +val||0 : val
-  }:r)
+ 
+function updRev(id,field,val){
+  params.revenus_fixes=params.revenus_fixes.map(r=>r.id===id?{...r,[field]:field==='montant'?+val||0:val}:r)
 }
-function delRev(id){
-  params.revenus_fixes = params.revenus_fixes.filter(r=>r.id!==id)
-  renderParams()
-}
+function delRev(id){ params.revenus_fixes=params.revenus_fixes.filter(r=>r.id!==id); renderParams() }
 function addRev(){
-  params.revenus_fixes = [...params.revenus_fixes, {
-    id:'r'+Date.now(),
-    label:'Nouveau revenu',
-    montant:0,
-    periode:'hebdo'
-  }]
+  params.revenus_fixes=[...params.revenus_fixes,{id:'r'+Date.now(),label:'Nouveau revenu',montant:0,periode:'hebdo'}]
   renderParams()
 }
-
-function updFact(id, field, val){
-  params.factures = params.factures.map(f=>f.id===id?{...f,[field]:field==='montant'?+val||0:val}:f)
+function updFact(id,field,val){
+  params.factures=params.factures.map(f=>f.id===id?{...f,[field]:field==='montant'?+val||0:val}:f)
 }
-function delFact(id){
-  params.factures = params.factures.filter(f=>f.id!==id)
-  renderParams()
-}
+function delFact(id){ params.factures=params.factures.filter(f=>f.id!==id); renderParams() }
 function addFact(){
-  params.factures = [...params.factures, {id:'f'+Date.now(), label:'Nouvelle facture', montant:0}]
+  params.factures=[...params.factures,{id:'f'+Date.now(),label:'Nouvelle facture',montant:0}]
   renderParams()
 }
-
-function updCarte(id, field, val){
-  params.cartes = params.cartes.map(c=>c.id===id?{
-    ...c,
-    [field]: field==='nom' ? val : +val||0
-  }:c)
+function updCarte(id,field,val){
+  params.cartes=params.cartes.map(c=>c.id===id?{...c,[field]:field==='nom'?val:+val||0}:c)
 }
-function delCarte(id){
-  params.cartes = params.cartes.filter(c=>c.id!==id)
-  renderParams()
-}
+function delCarte(id){ params.cartes=params.cartes.filter(c=>c.id!==id); renderParams() }
 function addCarte(){
-  params.cartes = [...params.cartes, {
-    id:'c'+Date.now(),
-    nom:'Nouvelle carte',
-    solde_init:0,
-    limite:1000,
-    taux:19.99,
-    min_h:0
-  }]
+  params.cartes=[...params.cartes,{id:'c'+Date.now(),nom:'Nouvelle carte',solde_init:0,limite:1000,taux:19.99,min_h:0}]
   renderParams()
 }
-
 function saveParams(){
-  params.epargne_h     = +(document.getElementById('pr-ep')?.value||0)
-  params.dep_var_cible = +(document.getElementById('pr-dep')?.value||0)
-  save(STORE_P, params)
+  params.epargne_h=+(document.getElementById('pr-ep')?.value||0)
+  params.dep_var_cible=+(document.getElementById('pr-dep')?.value||0)
+  save(STORE_P,params)
   toast('Réglages sauvegardés ✓')
-  renderHome()
-  renderSaisie()
-  renderHist()
-  renderParams()
+  renderAll()
 }
-
-function renderAll(){
-  renderHome()
-  renderSaisie()
-  renderHist()
-  renderParams()
-}
-
-// ── BOOT ──────────────────────────────
-window.addEventListener('load', init)
+ 
+function renderAll(){ renderHome(); renderSaisie(); renderHist(); renderParams() }
+ 
+window.addEventListener('load',init)
 </script>
 </body>
 </html>
