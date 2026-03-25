@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mon Budget">
+  <title>Mon Budget</title>
+  <style>
+    :root {
+      --bg: #F2F2F7;
+      --card: #FFFFFF;
+      --text: #000000;
+      --text2: #6C6C70;
+      --text3: #AEAEB2;
+      --border: rgba(60,60,67,0.18);
+      --tint: #007AFF;
+      --green: #34C759;
+      --red: #FF3B30;
+      --orange: #FF9500;
+      --purple: #AF52DE;
+      --tab-bg: rgba(249,249,249,0.94);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-top: env(safe-area-inset-top, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:#000;
+        --card:#1C1C1E;
+        --text:#FFF;
+        --text2:#AEAEB2;
+        --text3:#636366;
+        --border:rgba(84,84,88,0.55);
+        --tab-bg:rgba(28,28,30,0.94);
+      }
+    }
+
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    body {
+      font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      padding-top:calc(var(--safe-top) + 0px);
+    }
+
+    .screen {
+      display:none;
+      padding:0 0 calc(var(--safe-bottom) + 68px);
+    }
+
+    .screen.active {
+      display:block;
+    }
+
+    .topbar {
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:var(--tab-bg);
+      backdrop-filter:saturate(180%) blur(20px);
+      -webkit-backdrop-filter:saturate(180%) blur(20px);
+      border-bottom:0.5px solid var(--border);
+      padding:12px 16px 10px;
+      text-align:center;
+    }
+
+    .topbar h1 {
+      font-size:17px;
+      font-weight:600;
+      letter-spacing:-0.02em;
+    }
+
+    .topbar p {
+      font-size:12px;
+      color:var(--text2);
+      margin-top:1px;
+    }
+
+    .tabbar {
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:200;
+      background:var(--tab-bg);
+      backdrop-filter:saturate(180%) blur(20px);
+      -webkit-backdrop-filter:saturate(180%) blur(20px);
+      border-top:0.5px solid var(--border);
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      padding-bottom:var(--safe-bottom);
+    }
+
+    .tab {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:2px;
+      padding:8px 0 6px;
+      cursor:pointer;
+      border:none;
+      background:none;
+      color:var(--text3);
+      font-size:10px;
+      font-weight:500;
+      -webkit-appearance:none;
+    }
+
+    .tab.active {
+      color:var(--tint);
+    }
+
+    .tab svg {
+      width:24px;
+      height:24px;
+    }
+
+    .section {
+      padding:20px 16px 0;
+    }
+
+    .section-title {
+      font-size:13px;
+      font-weight:600;
+      color:var(--text2);
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+      margin-bottom:8px;
+      padding:0 4px;
+    }
+
+    .card {
+      background:var(--card);
+      border-radius:12px;
+      overflow:hidden;
+      margin-bottom:8px;
+    }
+
+    .card-row {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 16px;
+      border-bottom:0.5px solid var(--border);
+    }
+
+    .card-row:last-child {
+      border-bottom:none;
+    }
+
+    .row-label {
+      font-size:16px;
+    }
+
+    .row-val {
+      font-size:16px;
+      font-weight:500;
+      color:var(--tint);
+    }
+
+    .row-note {
+      font-size:12px;
+      color:var(--text2);
+      margin-top:1px;
+    }
+
+    .input-wrap {
+      padding:12px 16px;
+      border-bottom:0.5px solid var(--border);
+    }
+
+    .input-wrap:last-child {
+      border-bottom:none;
+    }
+
+    .input-wrap label {
+      font-size:12px;
+      color:var(--text2);
+      display:block;
+      margin-bottom:5px;
+    }
+
+    .input-wrap input,
+    .input-wrap select {
+      width:100%;
+      font-size:16px;
+      padding:8px 10px;
+      border:0.5px solid var(--border);
+      border-radius:8px;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-appearance:none;
+      outline:none;
+    }
+
+    .input-hint {
+      font-size:11px;
+      color:var(--text2);
+      margin-top:4px;
+    }
+
+    .btn {
+      display:block;
+      width:calc(100% - 32px);
+      margin:12px 16px 0;
+      padding:14px;
+      font-size:16px;
+      font-weight:600;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      -webkit-appearance:none;
+    }
+
+    .btn:active {
+      transform:scale(0.98);
+    }
+
+    .btn-primary {
+      background:var(--tint);
+      color:#fff;
+    }
+
+    .btn-green {
+      background:var(--green);
+      color:#fff;
+    }
+
+    .btn-red {
+      background:var(--red);
+      color:#fff;
+    }
+
+    .btn-sm {
+      font-size:13px;
+      padding:8px 14px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+    }
+
+    .sum-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      padding:0 16px;
+    }
+
+    .sum-card {
+      background:var(--card);
+      border-radius:12px;
+      padding:12px 14px;
+    }
+
+    .sum-label {
+      font-size:12px;
+      color:var(--text2);
+    }
+
+    .sum-val {
+      font-size:20px;
+      font-weight:700;
+      margin-top:2px;
+      letter-spacing:-0.02em;
+    }
+
+    .prog-wrap {
+      height:6px;
+      background:var(--border);
+      border-radius:3px;
+      overflow:hidden;
+      margin:6px 0;
+    }
+
+    .prog-bar {
+      height:100%;
+      border-radius:3px;
+      transition:width .5s;
+    }
+
+    .badge {
+      display:inline-block;
+      font-size:11px;
+      font-weight:600;
+      padding:2px 8px;
+      border-radius:20px;
+      margin-left:6px;
+    }
+
+    .badge-blue {
+      background:#E1F0FF;
+      color:#007AFF;
+    }
+
+    .badge-green {
+      background:#E5F8EC;
+      color:#1C7C34;
+    }
+
+    .badge-orange {
+      background:#FFF3E0;
+      color:#C76B00;
+    }
+
+    @media(prefers-color-scheme:dark) {
+      .badge-blue {
+        background:#0A3060;
+        color:#6AB4FF;
+      }
+
+      .badge-green {
+        background:#0A2E14;
+        color:#30D158;
+      }
+
+      .badge-orange {
+        background:#3D2600;
+        color:#FFB340;
+      }
+    }
+
+    .hero {
+      margin:16px;
+      background:linear-gradient(135deg,#007AFF,#5856D6);
+      border-radius:16px;
+      padding:20px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::after {
+      content:'';
+      position:absolute;
+      right:-20px;
+      top:-20px;
+      width:120px;
+      height:120px;
+      background:rgba(255,255,255,0.08);
+      border-radius:50%;
+    }
+
+    .hero h2 {
+      font-size:13px;
+      opacity:.75;
+      font-weight:500;
+    }
+
+    .hero .big {
+      font-size:32px;
+      font-weight:700;
+      letter-spacing:-0.04em;
+      margin:4px 0;
+    }
+
+    .hero .sub {
+      font-size:13px;
+      opacity:.75;
+    }
+
+    #toast {
+      position:fixed;
+      top:calc(var(--safe-top) + 12px);
+      left:50%;
+      transform:translateX(-50%) translateY(-80px);
+      background:#333;
+      color:#fff;
+      padding:10px 20px;
+      border-radius:20px;
+      font-size:14px;
+      z-index:999;
+      transition:transform .3s ease;
+      white-space:nowrap;
+      max-width:90vw;
+    }
+
+    #toast.show {
+      transform:translateX(-50%) translateY(0);
+    }
+
+    #toast.ok {
+      background:#1C7C34;
+    }
+
+    #toast.err {
+      background:var(--red);
+    }
+
+    .del-btn {
+      background:none;
+      border:none;
+      color:var(--red);
+      font-size:22px;
+      cursor:pointer;
+      padding:0 4px;
+      line-height:1;
+    }
+
+    input:focus {
+      outline:none;
+      border-color:var(--tint)!important;
+      box-shadow:0 0 0 3px rgba(0,122,255,.15);
+    }
+
+    .muted {
+      color:var(--text2);
+    }
+
+    .center-empty {
+      text-align:center;
+      padding:60px 20px;
+      color:var(--text2);
+    }
+  </style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="screen active" id="screen-home">
+  <div class="topbar">
+    <h1>Mon Budget</h1>
+    <p id="home-subtitle">Chargement…</p>
+  </div>
+  <div id="home-body"></div>
+</div>
+
+<div class="screen" id="screen-saisie">
+  <div class="topbar">
+    <h1>✏️ Saisie de la semaine</h1>
+  </div>
+  <div id="saisie-body"></div>
+</div>
+
+<div class="screen" id="screen-hist">
+  <div class="topbar">
+    <h1>📅 Historique</h1>
+  </div>
+  <div id="hist-body"></div>
+</div>
+
+<div class="screen" id="screen-params">
+  <div class="topbar">
+    <h1>⚙️ Paramètres</h1>
+  </div>
+  <div id="params-body"></div>
+</div>
+
+<nav class="tabbar">
+  <button class="tab active" onclick="showTab('home')" id="tab-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    Tableau
+  </button>
+
+  <button class="tab" onclick="showTab('saisie')" id="tab-saisie">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+    </svg>
+    Saisie
+  </button>
+
+  <button class="tab" onclick="showTab('hist')" id="tab-hist">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+    Historique
+  </button>
+
+  <button class="tab" onclick="showTab('params')" id="tab-params">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path>
+    </svg>
+    Réglages
+  </button>
+</nav>
+
+<script>
+  const STORE_P = 'mbp4';
+  const STORE_E = 'mbe4';
+
+  const DEF_PARAMS = {
+    salaire_hebdo: 704.79,
+    alloc_can: 284.34,
+    alloc_qc: 460.20,
+    factures: [
+      { id:'f1', label:'Loyer / Hypothèque', montant:500 },
+      { id:'f2', label:'Internet', montant:96.50 },
+      { id:'f3', label:'Abonnements', montant:48 },
+      { id:'f4', label:'Autre dette (sans intérêt)', montant:250 }
+    ],
+    cartes: [
+      { id:'c1', nom:'Capital One Gold', solde_init:785.51, taux:19.99, min_h:6.25 },
+      { id:'c2', nom:'Capital One Blue', solde_init:823.67, taux:19.99, min_h:6.25 },
+      { id:'c3', nom:'Canadian Tire', solde_init:1944.12, taux:19.99, min_h:12.50 }
+    ],
+    epargne_h: 12.50,
+    dep_var_cible: 200
+  };
+
+  let params = JSON.parse(JSON.stringify(DEF_PARAMS));
+  let entries = [];
+
+  const _mem = {};
+
+  function save(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {
+      _mem[key] = JSON.stringify(val);
+    }
+  }
+
+  function load(key) {
+    try {
+      const v = localStorage.getItem(key) || _mem[key];
+      return v ? JSON.parse(v) : null;
+    } catch (e) {
+      try {
+        return _mem[key] ? JSON.parse(_mem[key]) : null;
+      } catch (e2) {
+        return null;
+      }
+    }
+  }
+
+  function fmt(n) {
+    const v = +n || 0;
+    const a = Math.abs(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return `${v < 0 ? '-' : ''}${a} $`;
+  }
+
+  function clr(v) {
+    return v >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  function rev_h() {
+    return (+params.salaire_hebdo || 0) + (+params.alloc_can || 0) / 4 + (+params.alloc_qc || 0) / 13;
+  }
+
+  function fact_m() {
+    return params.factures.reduce((s, f) => s + (+f.montant || 0), 0);
+  }
+
+  function fact_h() {
+    return fact_m() / 4;
+  }
+
+  function soldes() {
+    return params.cartes.map(c => {
+      const a = entries.reduce((s, e) => s + (e.cartes?.find(x => x.id === c.id)?.achats || 0), 0);
+      const p = entries.reduce((s, e) => s + (e.cartes?.find(x => x.id === c.id)?.paiement || 0), 0);
+      return { ...c, solde: Math.max(0, (+c.solde_init || 0) + a - p) };
+    });
+  }
+
+  function snowball() {
+    return soldes().filter(c => c.solde > 0).sort((a, b) => a.solde - b.solde);
+  }
+
+  function attack_h() {
+    const sb = snowball();
+    if (!sb.length) return 0;
+
+    const min_others = sb.slice(1).reduce((s, c) => s + (+c.min_h || 0), 0);
+    return Math.max(+sb[0].min_h || 0, rev_h() - fact_h() - (+params.dep_var_cible || 0) - min_others - (+params.epargne_h || 0));
+  }
+
+  function toast(msg, ok = true) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + (ok ? 'ok' : 'err');
+    setTimeout(() => {
+      t.className = '';
+    }, 2200);
+  }
+
+  function showTab(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+    document.getElementById('screen-' + name).classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+
+    const renders = {
+      home: renderHome,
+      saisie: renderSaisie,
+      hist: renderHist,
+      params: renderParams
+    };
+
+    if (renders[name]) renders[name]();
+  }
+
+  function renderHome() {
+    const sb = snowball();
+    const tots = soldes();
+    const totalDette = tots.reduce((s, c) => s + c.solde, 0);
+    const totalInit = params.cartes.reduce((s, c) => s + (+c.solde_init || 0), 0);
+    const pct = totalInit > 0 ? Math.min(100, (1 - totalDette / totalInit) * 100) : 100;
+    const totalEp = entries.reduce((s, e) => s + (+e.epargne || 0), 0);
+    const atk = attack_h();
+    const min_others = sb.length > 1 ? sb.slice(1).reduce((s, c) => s + (+c.min_h || 0), 0) : 0;
+    const pay_m = (atk + min_others) * 4;
+    const months = pay_m > 0 && totalDette > 0 ? Math.ceil(totalDette / pay_m) : 0;
+    const rh = rev_h();
+    const fh = fact_h();
+    const reste = rh - fh - (+params.dep_var_cible || 0) - atk - min_others - (+params.epargne_h || 0);
+
+    document.getElementById('home-subtitle').textContent = `${fmt(rh)}/sem · Dettes: ${fmt(totalDette)}`;
+
+    let html = `
+      <div class="hero">
+        <h2>Dettes totales</h2>
+        <div class="big">${fmt(totalDette)}</div>
+        <div class="prog-wrap" style="height:8px;background:rgba(255,255,255,.25);margin:10px 0 6px;">
+          <div class="prog-bar" style="width:${pct.toFixed(0)}%;background:#fff;"></div>
+        </div>
+        <div class="sub">${pct.toFixed(0)}% remboursé · libre dans ~${months || '—'} mois</div>
+      </div>
+
+      <div class="sum-grid" style="margin-bottom:8px;">
+        <div class="sum-card">
+          <div class="sum-label">Revenu / sem.</div>
+          <div class="sum-val" style="color:var(--green)">${fmt(rh)}</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-label">Factures / sem.</div>
+          <div class="sum-val" style="color:var(--tint)">${fmt(fh)}</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-label">Épargne accumulée</div>
+          <div class="sum-val" style="color:var(--purple)">${fmt(totalEp)}</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-label">Reste estimé / sem.</div>
+          <div class="sum-val" style="color:${clr(reste)}">${fmt(reste)}</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">⛄ Priorités — boule de neige</div>
+    `;
+
+    if (sb.length === 0) {
+      html += `
+        <div class="card">
+          <div class="card-row" style="justify-content:center;flex-direction:column;gap:6px;padding:24px;">
+            <div style="font-size:36px;">🎉</div>
+            <div style="font-weight:700;font-size:17px;color:var(--green)">Toutes les cartes remboursées !</div>
+            <div style="font-size:13px;color:var(--text2)">Continue à épargner !</div>
+          </div>
+        </div>
+      `;
+    } else {
+      html += `<div class="card">`;
+
+      sb.forEach((c, i) => {
+        const p2 = c.solde_init > 0 ? Math.min(100, Math.max(0, (1 - c.solde / c.solde_init) * 100)) : 0;
+        const isAtk = i === 0;
+        const rec = isAtk ? atk : c.min_h;
+        const intm = c.solde * c.taux / 100 / 12;
+        const barColor = isAtk ? 'var(--tint)' : 'var(--green)';
+
+        html += `
+          <div class="card-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <div>
+                <span style="font-size:16px;font-weight:500;">${c.nom}</span>
+                <span class="badge ${isAtk ? 'badge-blue' : 'badge-green'}">${isAtk ? '⛄ Priorité 1' : 'Priorité ' + (i + 1)}</span>
+              </div>
+              <span style="font-size:16px;font-weight:600;">${fmt(c.solde)}</span>
+            </div>
+            <div class="prog-wrap" style="width:100%;margin:0;">
+              <div class="prog-bar" style="width:${p2.toFixed(0)}%;background:${barColor};"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;color:var(--text2);">
+              <span>${p2.toFixed(0)}% · ${fmt(intm)}/mois d'intérêts</span>
+              <span style="font-weight:600;color:var(--tint)">Verser ${fmt(rec)}/sem</span>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+    }
+
+    html += `<div style="height:8px;"></div></div>`;
+    document.getElementById('home-body').innerHTML = html;
+  }
+
+  function renderSaisie() {
+    const sb = snowball();
+    const atk = attack_h();
+
+    let html = `
+      <div class="section">
+        <div class="section-title">Semaine du</div>
+        <div class="card">
+          <div class="input-wrap">
+            <label>Date (ex: 24 mars 2026)</label>
+            <input type="text" id="s-date" placeholder="ex: 24 mars 2026">
+          </div>
+        </div>
+
+        <div class="section-title">Dépenses variables</div>
+        <div class="card">
+          <div class="input-wrap">
+            <label>Total cette semaine — épicerie, cigarettes, etc. ($)</label>
+            <input type="number" inputmode="decimal" id="s-dep" placeholder="0.00">
+            <div class="input-hint">Cible : ${fmt(params.dep_var_cible)}/sem</div>
+          </div>
+        </div>
+
+        <div class="section-title">Cartes de crédit</div>
+        <div class="card">
+    `;
+
+    [...params.cartes]
+      .sort((a, b) => {
+        const ia = sb.findIndex(x => x.id === a.id);
+        const ib = sb.findIndex(x => x.id === b.id);
+        return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
+      })
+      .forEach(c => {
+        const sbIdx = sb.findIndex(x => x.id === c.id);
+        const isAtk = sbIdx === 0 && sb.length > 0;
+        const rec = isAtk ? atk : c.min_h;
+        const sol = soldes().find(x => x.id === c.id);
+
+        html += `
+          <div class="input-wrap" style="border-bottom:0.5px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <div>
+                <span style="font-size:14px;font-weight:600;">${c.nom}</span>
+                ${isAtk ? `<span class="badge badge-blue">⛄ Priorité 1</span>` : ''}
+              </div>
+              <span style="font-size:13px;color:var(--text2)">Solde: ${fmt(sol?.solde || 0)}</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div>
+                <label>Achats ($)</label>
+                <input type="number" inputmode="decimal" id="a-${c.id}" placeholder="0.00">
+              </div>
+              <div>
+                <label>Paiement ($)</label>
+                <input type="number" inputmode="decimal" id="p-${c.id}" placeholder="${(+rec || 0).toFixed(2)}">
+                <div class="input-hint" style="color:var(--tint)">Suggéré: ${fmt(rec)}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+    html += `
+        </div>
+
+        <div class="section-title">Épargne</div>
+        <div class="card">
+          <div class="input-wrap">
+            <label>Montant mis de côté ($)</label>
+            <input type="number" inputmode="decimal" id="s-ep" placeholder="${(+params.epargne_h || 0).toFixed(2)}" value="${+params.epargne_h || 0}">
+          </div>
+        </div>
+
+        <div class="section-title">Résumé en temps réel</div>
+        <div class="card" id="resume-card"></div>
+      </div>
+
+      <button class="btn btn-green" onclick="saveSaisie()">Sauvegarder cette semaine ✓</button>
+      <div style="height:8px;"></div>
+    `;
+
+    document.getElementById('saisie-body').innerHTML = html;
+
+    const inputs = ['s-dep', 's-ep', ...params.cartes.flatMap(c => [`a-${c.id}`, `p-${c.id}`])];
+    inputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateResume);
+    });
+
+    updateResume();
+  }
+
+  function updateResume() {
+    const dep = +(document.getElementById('s-dep')?.value || 0);
+    const ep = +(document.getElementById('s-ep')?.value || 0);
+    const pays = params.cartes.reduce((s, c) => s + (+(document.getElementById('p-' + c.id)?.value || 0)), 0);
+
+    const rh = rev_h();
+    const fh = fact_h();
+    const reste = rh - fh - dep - pays - ep;
+
+    const rows = [
+      ['Revenus fixes', rh, 'var(--green)'],
+      ['− Factures (part hebdo)', fh, 'var(--tint)'],
+      ['− Dépenses variables', dep, 'var(--orange)'],
+      ['− Paiements cartes', pays, 'var(--red)'],
+      ['− Épargne', ep, 'var(--purple)']
+    ];
+
+    const card = document.getElementById('resume-card');
+    if (!card) return;
+
+    card.innerHTML =
+      rows.map(([l, v, c]) => `
+        <div class="card-row" style="padding:10px 16px;">
+          <span style="font-size:14px;color:var(--text2);">${l}</span>
+          <span style="font-size:14px;font-weight:500;color:${c};">${fmt(v)}</span>
+        </div>
+      `).join('') +
+      `
+        <div class="card-row" style="padding:12px 16px;background:${reste >= 0 ? 'rgba(52,199,89,.1)' : 'rgba(255,59,48,.1)'};">
+          <span style="font-size:16px;font-weight:700;">Reste</span>
+          <span style="font-size:18px;font-weight:700;color:${clr(reste)};">${fmt(reste)}</span>
+        </div>
+      `;
+  }
+
+  function saveSaisie() {
+    const date = document.getElementById('s-date')?.value?.trim();
+    if (!date) {
+      toast('Indique la semaine du…', false);
+      return;
+    }
+
+    const dep = +(document.getElementById('s-dep')?.value || 0);
+    const ep = +(document.getElementById('s-ep')?.value || 0);
+
+    const cartes = params.cartes.map(c => ({
+      id: c.id,
+      achats: +(document.getElementById('a-' + c.id)?.value || 0),
+      paiement: +(document.getElementById('p-' + c.id)?.value || 0)
+    }));
+
+    const entry = {
+      id: Date.now(),
+      date,
+      dep_var: dep,
+      epargne: ep,
+      cartes
+    };
+
+    entries = [entry, ...entries];
+    save(STORE_E, entries);
+
+    toast('Semaine sauvegardée ✓');
+    renderSaisie();
+    renderHome();
+  }
+
+  function renderHist() {
+    if (!entries.length) {
+      document.getElementById('hist-body').innerHTML = `
+        <div class="center-empty">
+          <div style="font-size:48px;margin-bottom:12px;">📭</div>
+          <div style="font-size:16px;font-weight:500;">Aucune entrée</div>
+          <div style="font-size:13px;margin-top:6px;">Utilise l'onglet ✏️ Saisie</div>
+        </div>
+      `;
+      return;
+    }
+
+    let html = `<div class="section"><div class="section-title">Semaines (${entries.length})</div><div class="card">`;
+
+    entries.forEach(e => {
+      const totalPay = e.cartes?.reduce((s, c) => s + (+c.paiement || 0), 0) || 0;
+
+      html += `
+        <div class="card-row" style="flex-direction:column;align-items:flex-start;gap:4px;" id="entry-${e.id}">
+          <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+            <span style="font-size:15px;font-weight:600;">${e.date || '—'}</span>
+            <button class="del-btn" onclick="delEntry(${e.id})">×</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);width:100%;gap:4px;font-size:12px;">
+            <div style="color:var(--orange)">Dép. ${fmt(e.dep_var || 0)}</div>
+            <div style="color:var(--tint)">Paiements ${fmt(totalPay)}</div>
+            <div style="color:var(--purple)">Épargne ${fmt(e.epargne || 0)}</div>
+          </div>
+          ${(e.cartes || [])
+            .filter(c => (+c.paiement || 0) > 0 || (+c.achats || 0) > 0)
+            .map(c => {
+              const nom = params.cartes.find(x => x.id === c.id)?.nom || c.id;
+              return `
+                <div style="font-size:12px;color:var(--text2);width:100%;">
+                  ${nom}${(+c.achats || 0) > 0 ? ` · Achats ${fmt(c.achats)}` : ''}${(+c.paiement || 0) > 0 ? ` · Paiement ${fmt(c.paiement)}` : ''}
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
+      `;
+    });
+
+    html += `</div></div>`;
+    document.getElementById('hist-body').innerHTML = html;
+  }
+
+  function delEntry(id) {
+    if (!confirm('Supprimer cette entrée ?')) return;
+    entries = entries.filter(e => e.id !== id);
+    save(STORE_E, entries);
+    toast('Entrée supprimée');
+    renderHist();
+    renderHome();
+  }
+
+  function renderParams() {
+    const rh = rev_h();
+    const fm = fact_m();
+
+    let html = `
+      <div class="section">
+        <div class="section-title">💵 Revenus fixes</div>
+        <div class="card">
+          <div class="input-wrap">
+            <label>Salaire net / semaine ($)</label>
+            <input type="number" inputmode="decimal" id="pr-sal" value="${+params.salaire_hebdo || 0}">
+          </div>
+          <div class="input-wrap">
+            <label>Allocation canadienne pour enfants / mois ($)</label>
+            <input type="number" inputmode="decimal" id="pr-can" value="${+params.alloc_can || 0}">
+            <div class="input-hint">÷ 4 = ${fmt((+params.alloc_can || 0)/4)}/sem automatiquement</div>
+          </div>
+          <div class="input-wrap">
+            <label>Allocation famille Québec / trimestre ($)</label>
+            <input type="number" inputmode="decimal" id="pr-qc" value="${+params.alloc_qc || 0}">
+            <div class="input-hint">÷ 13 = ${fmt((+params.alloc_qc || 0)/13)}/sem automatiquement</div>
+          </div>
+          <div class="card-row" style="background:rgba(52,199,89,.08);">
+            <span style="font-size:14px;color:var(--green);font-weight:500;">Total / semaine</span>
+            <span style="font-size:16px;font-weight:700;color:var(--green);">${fmt(rh)}</span>
+          </div>
+        </div>
+
+        <div class="section-title">🏠 Factures mensuelles</div>
+        <div class="card" id="factures-list">
+    `;
+
+    params.factures.forEach(f => {
+      html += `
+        <div class="input-wrap" id="fact-${f.id}">
+          <div style="display:grid;grid-template-columns:1fr 80px auto;gap:6px;align-items:center;">
+            <input type="text" value="${escapeHtml(f.label)}" onchange="updFact('${f.id}','label',this.value)" style="font-size:14px;">
+            <input type="number" inputmode="decimal" value="${+f.montant || 0}" onchange="updFact('${f.id}','montant',this.value)" style="text-align:right;">
+            <button class="del-btn" onclick="delFact('${f.id}')">×</button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+          <div style="padding:12px 16px;">
+            <button onclick="addFact()" style="width:100%;padding:10px;font-size:14px;border:1px dashed var(--tint);border-radius:8px;background:none;color:var(--tint);cursor:pointer;">
+              + Ajouter une facture
+            </button>
+          </div>
+          <div class="card-row" style="background:rgba(0,122,255,.06);">
+            <span style="font-size:14px;color:var(--tint);font-weight:500;">Total / mois</span>
+            <span style="font-size:16px;font-weight:700;color:var(--tint);">${fmt(fm)} → ${fmt(fm/4)}/sem</span>
+          </div>
+        </div>
+
+        <div class="section-title">💳 Cartes de crédit</div>
+    `;
+
+    params.cartes.forEach(c => {
+      const soldeActuel = soldes().find(x => x.id === c.id)?.solde || 0;
+
+      html += `
+        <div class="card" style="margin-bottom:8px;">
+          <div class="card-row"><span style="font-weight:600;font-size:15px;">${escapeHtml(c.nom)}</span></div>
+          <div class="input-wrap">
+            <label>Solde initial ($)</label>
+            <input type="number" inputmode="decimal" value="${+c.solde_init || 0}" onchange="updCarte('${c.id}','solde_init',this.value)">
+            <div class="input-hint">Solde actuel: ${fmt(soldeActuel)}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;">
+            <div class="input-wrap">
+              <label>Taux annuel (%)</label>
+              <input type="number" inputmode="decimal" value="${+c.taux || 0}" onchange="updCarte('${c.id}','taux',this.value)">
+            </div>
+            <div class="input-wrap">
+              <label>Paiement min. / sem. ($)</label>
+              <input type="number" inputmode="decimal" value="${+c.min_h || 0}" onchange="updCarte('${c.id}','min_h',this.value)">
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+        <div class="section-title">🎯 Objectifs hebdo</div>
+        <div class="card">
+          <div class="input-wrap">
+            <label>Épargne cible / semaine ($)</label>
+            <input type="number" inputmode="decimal" id="pr-ep" value="${+params.epargne_h || 0}">
+          </div>
+          <div class="input-wrap">
+            <label>Dépenses variables cible / semaine ($)</label>
+            <input type="number" inputmode="decimal" id="pr-dep" value="${+params.dep_var_cible || 0}">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="saveParams()">Sauvegarder les réglages ✓</button>
+      <div style="height:8px;"></div>
+    `;
+
+    document.getElementById('params-body').innerHTML = html;
+  }
+
+  function updFact(id, field, val) {
+    params.factures = params.factures.map(f =>
+      f.id === id
+        ? { ...f, [field]: field === 'montant' ? (+val || 0) : val }
+        : f
+    );
+  }
+
+  function delFact(id) {
+    params.factures = params.factures.filter(f => f.id !== id);
+    renderParams();
+  }
+
+  function addFact() {
+    params.factures = [...params.factures, {
+      id: 'f' + Date.now(),
+      label: 'Nouvelle facture',
+      montant: 0
+    }];
+    renderParams();
+  }
+
+  function updCarte(id, field, val) {
+    params.cartes = params.cartes.map(c =>
+      c.id === id
+        ? { ...c, [field]: field === 'nom' ? val : (+val || 0) }
+        : c
+    );
+  }
+
+  function saveParams() {
+    params.salaire_hebdo = +(document.getElementById('pr-sal')?.value || 0);
+    params.alloc_can = +(document.getElementById('pr-can')?.value || 0);
+    params.alloc_qc = +(document.getElementById('pr-qc')?.value || 0);
+    params.epargne_h = +(document.getElementById('pr-ep')?.value || 0);
+    params.dep_var_cible = +(document.getElementById('pr-dep')?.value || 0);
+
+    save(STORE_P, params);
+    toast('Réglages sauvegardés ✓');
+    renderParams();
+    renderHome();
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function renderAll() {
+    renderHome();
+    renderSaisie();
+    renderHist();
+    renderParams();
+  }
+
+  function init() {
+    const p = load(STORE_P);
+    if (p) params = p;
+
+    const e = load(STORE_E);
+    if (e) entries = e;
+
+    renderAll();
+  }
+
+  window.addEventListener('load', init);
+</script>
+</body>
+</html>
