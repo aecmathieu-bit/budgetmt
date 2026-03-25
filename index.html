@@ -222,6 +222,7 @@ const DEF_PARAMS = {
 let params = JSON.parse(JSON.stringify(DEF_PARAMS))
 let entries = []
 
+// compatibilité ancienne version
 function migrateParams(p){
   if(!p) return JSON.parse(JSON.stringify(DEF_PARAMS))
   const out = JSON.parse(JSON.stringify(p))
@@ -353,7 +354,7 @@ function esc(s){
 // ── DATE AUTO ───────────────────────────
 function defaultWeekLabel(d = new Date()){
   const date = new Date(d)
-  const day = date.getDay()
+  const day = date.getDay() // 0 dimanche
   const diff = day===0 ? -6 : 1-day
   date.setDate(date.getDate()+diff)
   const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
@@ -485,24 +486,24 @@ function renderHome(){
   } else {
     html += `<div class="card">`
     sb.forEach((c,i)=>{
-      const utilisationPct = (+c.limite||0) > 0 ? Math.max(0, Math.min(100, ((+c.solde||0) / (+c.limite||1)) * 100)) : 0
+      const p2 = Math.min(100,Math.max(0,(1-c.solde/c.solde_init)*100))
       const isAtk = i===0
       const rec = isAtk ? atk : c.min_h
       const intm = c.solde*c.taux/100/12
-      const barColor = utilisationPct>=90 ? 'var(--red)' : utilisationPct>=70 ? 'var(--orange)' : (isAtk ? 'var(--tint)' : 'var(--green)')
+      const barColor = isAtk ? 'var(--tint)' : 'var(--green)'
       html += `<div class="card-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
         <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
           <div>
             <span style="font-size:16px;font-weight:500;">${esc(c.nom)}</span>
             <span class="badge ${isAtk?'badge-blue':'badge-green'}">${isAtk?'⛄ Priorité 1':'Priorité '+(i+1)}</span>
           </div>
-          <span style="font-size:16px;font-weight:600;">${fmt(c.limite||0)}</span>
+          <span style="font-size:16px;font-weight:600;">${fmt(c.solde)}</span>
         </div>
         <div class="prog-wrap" style="width:100%;margin:0;">
-          <div class="prog-bar" style="width:${utilisationPct.toFixed(0)}%;background:${barColor};"></div>
+          <div class="prog-bar" style="width:${p2.toFixed(0)}%;background:${barColor};"></div>
         </div>
         <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;color:var(--text2);">
-          <span>${utilisationPct.toFixed(0)}% utilisé · ${fmt(intm)}/mois d'intérêts</span>
+          <span>${p2.toFixed(0)}% · ${fmt(intm)}/mois d'intérêts</span>
           <span style="font-weight:600;color:var(--tint)">Verser ${fmt(rec)}/sem</span>
         </div>
       </div>`
