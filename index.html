@@ -9,15 +9,23 @@
 <title>Mon Budget</title>
 <style>
 :root {
-  --bg: #F2F2F7; --card: #FFFFFF; --text: #000000; --text2: #6C6C70; --text3: #AEAEB2;
-  --border: rgba(60,60,67,0.18); --tint: #007AFF; --green: #34C759; --red: #FF3B30;
-  --orange: #FF9500; --purple: #AF52DE; --tab-bg: rgba(249,249,249,0.94);
+  --bg: #0B1622;
+  --bg2: #112031;
+  --card: #162840;
+  --card2: #1E3450;
+  --text: #F0F4FF;
+  --text2: #7A9BBF;
+  --text3: #4A6A8A;
+  --border: rgba(100,160,220,0.15);
+  --tint: #00C2FF;
+  --green: #00E5A0;
+  --red: #FF4D6A;
+  --orange: #FFB830;
+  --purple: #A78BFA;
+  --yellow: #FFD700;
+  --tab-bg: rgba(11,22,34,0.97);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#000; --card:#1C1C1E; --text:#FFF; --text2:#AEAEB2; --text3:#636366;
-    --border:rgba(84,84,88,0.55); --tab-bg:rgba(28,28,30,0.94); }
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
@@ -26,86 +34,103 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
 .screen{display:none;padding:0 0 calc(var(--safe-bottom) + 68px);}
 .screen.active{display:block;}
 .topbar{position:sticky;top:0;z-index:100;
-  background:var(--tab-bg);backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(11,22,34,0.97);backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:0.5px solid var(--border);
-  padding:12px 16px 10px;text-align:center;}
-.topbar h1{font-size:17px;font-weight:600;letter-spacing:-0.02em;}
-.topbar p{font-size:12px;color:var(--text2);margin-top:1px;}
+  border-bottom:1px solid rgba(0,194,255,0.12);
+  padding:14px 16px 12px;text-align:center;}
+.topbar h1{font-size:17px;font-weight:700;letter-spacing:0.01em;
+  background:linear-gradient(90deg,#00C2FF,#00E5A0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.topbar p{font-size:12px;color:var(--text2);margin-top:2px;}
 .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:200;
-  background:var(--tab-bg);backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(11,22,34,0.98);backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-top:0.5px solid var(--border);
+  border-top:1px solid rgba(0,194,255,0.15);
   display:grid;grid-template-columns:repeat(4,1fr);
   padding-bottom:var(--safe-bottom);}
 .tab{display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:8px 0 6px;cursor:pointer;border:none;background:none;color:var(--text3);
-  font-size:10px;font-weight:500;-webkit-appearance:none;}
+  padding:10px 0 6px;cursor:pointer;border:none;background:none;color:var(--text3);
+  font-size:10px;font-weight:500;-webkit-appearance:none;transition:color .2s;}
 .tab.active{color:var(--tint);}
+.tab.active svg{filter:drop-shadow(0 0 4px rgba(0,194,255,0.6));}
 .tab svg{width:24px;height:24px;}
 .section{padding:20px 16px 0;}
-.section-title{font-size:13px;font-weight:600;color:var(--text2);
-  text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;padding:0 4px;}
-.card{background:var(--card);border-radius:12px;overflow:hidden;margin-bottom:8px;}
+.section-title{font-size:11px;font-weight:700;color:var(--tint);
+  text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;padding:0 4px;
+  opacity:0.85;}
+.card{background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:10px;
+  border:1px solid rgba(0,194,255,0.1);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
 .card-row{display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;border-bottom:0.5px solid var(--border);}
+  padding:13px 16px;border-bottom:1px solid rgba(100,160,220,0.1);}
 .card-row:last-child{border-bottom:none;}
-.input-wrap{padding:12px 16px;border-bottom:0.5px solid var(--border);}
+.input-wrap{padding:12px 16px;border-bottom:1px solid rgba(100,160,220,0.1);}
 .input-wrap:last-child{border-bottom:none;}
-.input-wrap label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;}
-.input-wrap input,.input-wrap select{width:100%;font-size:16px;padding:8px 10px;
-  border:0.5px solid var(--border);border-radius:8px;
-  background:var(--bg);color:var(--text);-webkit-appearance:none;outline:none;}
-.input-hint{font-size:11px;color:var(--text2);margin-top:4px;}
+.input-wrap label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;letter-spacing:0.02em;}
+.input-wrap input,.input-wrap select{width:100%;font-size:16px;padding:9px 12px;
+  border:1px solid rgba(0,194,255,0.2);border-radius:10px;
+  background:var(--bg2);color:var(--text);-webkit-appearance:none;outline:none;}
+.input-hint{font-size:11px;color:var(--text3);margin-top:4px;}
 .btn{display:block;width:calc(100% - 32px);margin:12px 16px 0;
-  padding:14px;font-size:16px;font-weight:600;
-  border:none;border-radius:12px;cursor:pointer;-webkit-appearance:none;}
-.btn-primary{background:var(--tint);color:#fff;}
-.btn-green{background:var(--green);color:#fff;}
-.btn:active{transform:scale(0.98);}
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;}
-.sum-card{background:var(--card);border-radius:12px;padding:12px 14px;}
-.sum-label{font-size:12px;color:var(--text2);}
-.sum-val{font-size:20px;font-weight:700;margin-top:2px;letter-spacing:-0.02em;}
+  padding:15px;font-size:16px;font-weight:700;letter-spacing:0.02em;
+  border:none;border-radius:14px;cursor:pointer;-webkit-appearance:none;
+  transition:transform .15s,box-shadow .15s;}
+.btn-primary{background:linear-gradient(135deg,#00C2FF,#0080CC);color:#fff;
+  box-shadow:0 4px 15px rgba(0,194,255,0.3);}
+.btn-green{background:linear-gradient(135deg,#00E5A0,#00A870);color:#0B1622;
+  box-shadow:0 4px 15px rgba(0,229,160,0.3);}
+.btn-red{background:linear-gradient(135deg,#FF4D6A,#CC1A35);color:#fff;}
+.btn:active{transform:scale(0.97);}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;}
+.sum-card{background:var(--card);border-radius:14px;padding:14px;
+  border:1px solid rgba(0,194,255,0.1);box-shadow:0 4px 16px rgba(0,0,0,0.25);}
+.sum-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;}
+.sum-val{font-size:21px;font-weight:700;margin-top:4px;letter-spacing:-0.02em;}
 .prog-wrap{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:6px 0;}
 .prog-bar{height:100%;border-radius:3px;transition:width .5s;}
-.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;
-  border-radius:20px;margin-left:6px;}
-.badge-blue{background:#E1F0FF;color:#007AFF;}
-.badge-green{background:#E5F8EC;color:#1C7C34;}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;
+  border-radius:20px;margin-left:6px;letter-spacing:0.02em;}
+.badge-blue{background:rgba(0,194,255,0.15);color:#00C2FF;border:1px solid rgba(0,194,255,0.3);}
+.badge-green{background:rgba(0,229,160,0.15);color:#00E5A0;border:1px solid rgba(0,229,160,0.3);}
 @media(prefers-color-scheme:dark){
   .badge-blue{background:#0A3060;color:#6AB4FF;}
   .badge-green{background:#0A2E14;color:#30D158;}
 }
-.hero{margin:16px;background:linear-gradient(135deg,#007AFF,#5856D6);
-  border-radius:16px;padding:20px;color:#fff;position:relative;overflow:hidden;}
-.hero::after{content:'';position:absolute;right:-20px;top:-20px;
-  width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%;}
-.hero h2{font-size:13px;opacity:.75;font-weight:500;}
-.hero .big{font-size:32px;font-weight:700;letter-spacing:-0.04em;margin:4px 0;}
-.hero .sub{font-size:13px;opacity:.75;}
+.hero{margin:16px;background:linear-gradient(135deg,#0D2E4A,#1A4A6B);
+  border-radius:18px;padding:22px;color:#fff;position:relative;overflow:hidden;
+  border:1px solid rgba(0,194,255,0.25);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.hero::before{content:'';position:absolute;right:-30px;top:-30px;
+  width:140px;height:140px;background:radial-gradient(circle,rgba(0,194,255,0.12),transparent 70%);border-radius:50%;}
+.hero::after{content:'';position:absolute;left:-20px;bottom:-20px;
+  width:100px;height:100px;background:radial-gradient(circle,rgba(0,229,160,0.08),transparent 70%);border-radius:50%;}
+.hero h2{font-size:12px;color:rgba(0,194,255,0.8);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;}
+.hero .big{font-size:34px;font-weight:800;letter-spacing:-0.04em;margin:6px 0;
+  background:linear-gradient(90deg,#fff,#A0D8FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero .sub{font-size:13px;color:rgba(160,216,255,0.7);}
 #toast{position:fixed;top:calc(var(--safe-top) + 12px);left:50%;transform:translateX(-50%) translateY(-80px);
-  background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;
-  z-index:999;transition:transform .3s ease;white-space:nowrap;max-width:90vw;}
+  background:rgba(22,40,64,0.95);color:#fff;padding:12px 22px;border-radius:24px;font-size:14px;font-weight:600;
+  z-index:999;transition:transform .3s ease;white-space:nowrap;max-width:90vw;
+  border:1px solid rgba(0,194,255,0.3);backdrop-filter:blur(10px);}
 #toast.show{transform:translateX(-50%) translateY(0);}
-#toast.ok{background:#1C7C34;}
-#toast.err{background:var(--red);}
+#toast.ok{background:rgba(0,130,80,0.9);border-color:rgba(0,229,160,0.4);}
+#toast.err{background:rgba(180,30,50,0.9);border-color:rgba(255,77,106,0.4);}
 .del-btn{background:none;border:none;color:var(--red);font-size:22px;cursor:pointer;padding:0 4px;line-height:1;}
-input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px rgba(0,122,255,.15);}
+input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px rgba(0,194,255,.15);}
 .center-empty{text-align:center;padding:60px 20px;color:var(--text2);}
-.add-btn{width:100%;padding:10px;font-size:14px;border:1px dashed var(--tint);
-  border-radius:8px;background:none;color:var(--tint);cursor:pointer;}
+.add-btn{width:100%;padding:11px;font-size:14px;font-weight:600;
+  border:1px dashed rgba(0,194,255,0.4);border-radius:12px;
+  background:rgba(0,194,255,0.05);color:var(--tint);cursor:pointer;transition:background .2s;}
 .chart-shell{padding:16px;}
 .ring-wrap{display:flex;align-items:center;justify-content:center;padding:10px 0 4px;}
 .ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;position:relative;}
-.ring::before{content:'';position:absolute;inset:18px;border-radius:50%;background:var(--card);}
+.ring::before{content:'';position:absolute;inset:18px;border-radius:50%;background:var(--bg2);}
 .ring-inner{position:relative;z-index:2;text-align:center;padding:0 18px;}
 .ring-big{font-size:28px;font-weight:700;letter-spacing:-0.03em;}
 .ring-sub{font-size:12px;color:var(--text2);margin-top:2px;}
 .small-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
-.small-chip{background:var(--bg);border-radius:10px;padding:10px 12px;}
-.small-chip .l{font-size:11px;color:var(--text2);}
-.small-chip .v{font-size:16px;font-weight:700;margin-top:2px;}
+.small-chip{background:var(--bg2);border-radius:12px;padding:12px;
+  border:1px solid rgba(0,194,255,0.1);}
+.small-chip .l{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;}
+.small-chip .v{font-size:17px;font-weight:700;margin-top:4px;}
 .note{font-size:12px;color:var(--text2);line-height:1.35;}
 </style>
 </head>
@@ -174,6 +199,8 @@ const DEF_PARAMS = {
   ],
   epargne_h: 12.50,
   dep_var_cible: 200,
+  celiapp_cible_h: 153.85,
+  celiapp_total: 0,
 }
  
 let params = JSON.parse(JSON.stringify(DEF_PARAMS))
@@ -206,6 +233,8 @@ function migrateParams(p){
   }))
   out.epargne_h = +(out.epargne_h||0)
   out.dep_var_cible = +(out.dep_var_cible||0)
+  out.celiapp_cible_h = +(out.celiapp_cible_h||153.85)
+  out.celiapp_total = +(out.celiapp_total||0)
   delete out.salaire_hebdo; delete out.alloc_can; delete out.alloc_qc
   return out
 }
@@ -303,6 +332,7 @@ function renderHome(){
   const rh=rev_h(), fh=fact_h()
   const reste=rh-fh-params.dep_var_cible-atk-min_others-params.epargne_h
   const cs=creditStats()
+  const celiTotal=entries.reduce((s,e)=>s+(e.celiapp||0),0)+params.celiapp_total
   document.getElementById('home-subtitle').textContent=`${fmt(rh)}/sem · Dettes: ${fmt(totalDette)}`
   const pctUtilise=Math.max(0,Math.min(100,100-cs.pctLibre))
   const ringColor=pctUtilise>80?'var(--red)':pctUtilise>50?'var(--orange)':pctUtilise>30?'#FFCC00':'var(--green)'
@@ -310,14 +340,6 @@ function renderHome(){
   const ringStyle=`conic-gradient(${ringColor} 0 ${ringPct}%, var(--border) ${ringPct}% 100%)`
  
   let html=`
-  <div class="hero">
-    <h2>Dettes totales</h2>
-    <div class="big">${fmt(totalDette)}</div>
-    <div class="prog-wrap" style="height:8px;background:rgba(255,255,255,.25);margin:10px 0 6px;">
-      <div class="prog-bar" style="width:${pct.toFixed(0)}%;background:#fff;"></div>
-    </div>
-    <div class="sub">${pct.toFixed(0)}% remboursé · libre dans ~${months||'—'} mois</div>
-  </div>
   <div class="sum-grid" style="margin-bottom:8px;">
     <div class="sum-card"><div class="sum-label">Revenu / sem.</div>
       <div class="sum-val" style="color:var(--green)">${fmt(rh)}</div></div>
@@ -347,6 +369,32 @@ function renderHome(){
           <div class="small-chip"><div class="l">Taux d'utilisation</div><div class="v" style="color:var(--tint)">${(100-ringPct).toFixed(0)}%</div></div>
         </div>
  
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">🏦 CELIAPP — Cotisation annuelle</div>
+    <div class="card">
+      <div class="chart-shell">
+        <div class="ring-wrap">
+          ${(()=>{
+            const pctCeli=Math.min(100,Math.max(0,(celiTotal/8000)*100))
+            const celiColor=pctCeli>=76?'var(--green)':pctCeli>=51?'#FFCC00':pctCeli>=26?'var(--orange)':'var(--red)'
+            const celiStyle=`conic-gradient(${celiColor} 0 ${pctCeli}%, var(--border) ${pctCeli}% 100%)`
+            return `<div class="ring" style="background:${celiStyle};">
+              <div class="ring-inner">
+                <div class="ring-big">${pctCeli.toFixed(0)}%</div>
+                <div class="ring-sub">cotisé</div>
+              </div>
+            </div>`
+          })()}
+        </div>
+        <div class="small-grid">
+          <div class="small-chip"><div class="l">Limite annuelle</div><div class="v">${fmt(8000)}</div></div>
+          <div class="small-chip"><div class="l">Cotisé à ce jour</div><div class="v" style="color:var(--green)">${fmt(celiTotal)}</div></div>
+          <div class="small-chip"><div class="l">Reste à cotiser</div><div class="v" style="color:var(--tint)">${fmt(Math.max(0,8000-celiTotal))}</div></div>
+          <div class="small-chip"><div class="l">Cible / semaine</div><div class="v" style="color:var(--purple)">${fmt(params.celiapp_cible_h)}</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -389,6 +437,15 @@ function renderHome(){
     })
     html+=`</div>`
   }
+  html+=`
+  <div class="hero">
+    <h2>Dettes totales</h2>
+    <div class="big">${fmt(totalDette)}</div>
+    <div class="prog-wrap" style="height:8px;background:rgba(255,255,255,.25);margin:10px 0 6px;">
+      <div class="prog-bar" style="width:${pct.toFixed(0)}%;background:#fff;"></div>
+    </div>
+    <div class="sub">${pct.toFixed(0)}% remboursé · libre dans ~${months||'—'} mois</div>
+  </div>`
   html+=`<div style="height:8px;"></div></div>`
   document.getElementById('home-body').innerHTML=html
 }
@@ -455,6 +512,14 @@ function renderSaisie(){
         <input type="number" inputmode="decimal" id="s-ep" placeholder="${params.epargne_h.toFixed(2)}" value="${params.epargne_h}">
       </div>
     </div>
+    <div class="section-title">CELIAPP</div>
+    <div class="card">
+      <div class="input-wrap">
+        <label>Cotisation CELIAPP cette semaine ($)</label>
+        <input type="number" inputmode="decimal" id="s-celi" placeholder="${params.celiapp_cible_h.toFixed(2)}" value="${params.celiapp_cible_h}">
+        <div class="input-hint">Cible : ${fmt(params.celiapp_cible_h)}/sem · Limite annuelle : 8 000.00 $</div>
+      </div>
+    </div>
     <div class="section-title">Résumé en temps réel</div>
     <div class="card" id="resume-card"></div>
   </div>
@@ -470,14 +535,16 @@ function renderSaisie(){
 function updateResume(){
   const dep=+(document.getElementById('s-dep')?.value||0)
   const ep=+(document.getElementById('s-ep')?.value||0)
+  const celi=+(document.getElementById('s-celi')?.value||0)
   const pays=params.cartes.reduce((s,c)=>s+(+(document.getElementById('p-'+c.id)?.value||0)),0)
-  const rh=rev_h(), fh=fact_h(), reste=rh-fh-dep-pays-ep
+  const rh=rev_h(), fh=fact_h(), reste=rh-fh-dep-pays-ep-celi
   const rows=[
     ['Revenus fixes',rh,'var(--green)'],
     ['− Factures (part hebdo)',fh,'var(--tint)'],
     ['− Dépenses variables',dep,'var(--orange)'],
     ['− Paiements cartes',pays,'var(--red)'],
     ['− Épargne',ep,'var(--purple)'],
+    ['− CELIAPP',celi,'#1a7a4a'],
   ]
   const card=document.getElementById('resume-card'); if(!card) return
   card.innerHTML=rows.map(([l,v,c])=>`
@@ -496,12 +563,13 @@ function saveSaisie(){
   if(!date){ toast('Indique la semaine du…',false); return }
   const dep=+(document.getElementById('s-dep')?.value||0)
   const ep=+(document.getElementById('s-ep')?.value||0)
+  const celi=+(document.getElementById('s-celi')?.value||0)
   const cartes=params.cartes.map(c=>({
     id:c.id,
     achats:+(document.getElementById('a-'+c.id)?.value||0),
     paiement:+(document.getElementById('p-'+c.id)?.value||0),
   }))
-  entries=[{id:Date.now(),date,dep_var:dep,epargne:ep,cartes},...entries]
+  entries=[{id:Date.now(),date,dep_var:dep,epargne:ep,celiapp:celi,cartes},...entries]
   save(STORE_E,entries)
   toast('Semaine sauvegardée ✓')
   renderSaisie(); renderHome(); renderHist()
@@ -530,6 +598,7 @@ function renderHist(){
         <div style="color:var(--orange)">Dép. ${fmt(e.dep_var||0)}</div>
         <div style="color:var(--tint)">Paiements ${fmt(totalPay)}</div>
         <div style="color:var(--purple)">Épargne ${fmt(e.epargne||0)}</div>
+        ${e.celiapp?`<div style="color:#1a7a4a">CELIAPP ${fmt(e.celiapp)}</div>`:''}
       </div>
       ${(e.cartes||[]).filter(c=>c.paiement>0||c.achats>0).map(c=>{
         const nom=params.cartes.find(x=>x.id===c.id)?.nom||c.id
@@ -659,6 +728,16 @@ function renderParams(){
         <label>Dépenses variables cible / semaine ($)</label>
         <input type="number" inputmode="decimal" id="pr-dep" value="${params.dep_var_cible}">
       </div>
+    <div class="input-wrap">
+      <label>CELIAPP — cible / semaine ($)</label>
+      <input type="number" inputmode="decimal" id="pr-celi-h" value="${params.celiapp_cible_h}">
+      <div class="input-hint">8 000 $ / an ÷ 52 semaines = 153.85 $/sem recommandé</div>
+    </div>
+    <div class="input-wrap">
+      <label>CELIAPP — montant déjà cotisé cette année ($)</label>
+      <input type="number" inputmode="decimal" id="pr-celi-tot" value="${params.celiapp_total}">
+      <div class="input-hint">Montant cotisé avant de commencer à utiliser cette app</div>
+    </div>
     </div>
   </div>
   <button class="btn btn-primary" onclick="saveParams()">Sauvegarder les réglages ✓</button>
@@ -694,6 +773,8 @@ function addCarte(){
 function saveParams(){
   params.epargne_h=+(document.getElementById('pr-ep')?.value||0)
   params.dep_var_cible=+(document.getElementById('pr-dep')?.value||0)
+  params.celiapp_cible_h=+(document.getElementById('pr-celi-h')?.value||0)
+  params.celiapp_total=+(document.getElementById('pr-celi-tot')?.value||0)
   save(STORE_P,params)
   toast('Réglages sauvegardés ✓')
   renderAll()
