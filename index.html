@@ -6,6 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mon Budget">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTEyMDMxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFFMzQ1MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTUiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGQjgzMCIgc3Ryb2tlLXdpZHRoPSIxOCIgb3BhY2l0eT0iMC41NSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTcwIiBmaWxsPSJyZ2JhKDI1NSwxODQsNDgsMC4xMCkiLz4KICA8dGV4dCB4PSIyNTYiIHk9IjMzMCIgZm9udC1mYW1pbHk9IkltcGFjdCwgQXJpYWwiIGZvbnQtc2l6ZT0iMjQwIiBmaWxsPSIjRkZCODMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NQjwvdGV4dD4KPC9zdmc+">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTEyMDMxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFFMzQ1MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTUiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGQjgzMCIgc3Ryb2tlLXdpZHRoPSIxOCIgb3BhY2l0eT0iMC41NSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTcwIiBmaWxsPSJyZ2JhKDI1NSwxODQsNDgsMC4xMCkiLz4KICA8dGV4dCB4PSIyNTYiIHk9IjMzMCIgZm9udC1mYW1pbHk9IkltcGFjdCwgQXJpYWwiIGZvbnQtc2l6ZT0iMjQwIiBmaWxsPSIjRkZCODMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NQjwvdGV4dD4KPC9zdmc+">
 <title>Mon Budget</title>
 <style>
 :root {
@@ -233,8 +235,8 @@ function migrateParams(p){
   }))
   out.epargne_h = +(out.epargne_h||0)
   out.dep_var_cible = +(out.dep_var_cible||0)
-  out.celiapp_cible_h = +(out.celiapp_cible_h||153.85)
-  out.celiapp_total = +(out.celiapp_total||0)
+  out.celiapp_cible_h = out.celiapp_cible_h !== undefined ? +(out.celiapp_cible_h) : 153.85
+  out.celiapp_total = out.celiapp_total !== undefined ? +(out.celiapp_total) : 0
   delete out.salaire_hebdo; delete out.alloc_can; delete out.alloc_qc
   return out
 }
@@ -332,7 +334,8 @@ function renderHome(){
   const rh=rev_h(), fh=fact_h()
   const reste=rh-fh-params.dep_var_cible-atk-min_others-params.epargne_h
   const cs=creditStats()
-  const celiTotal=entries.reduce((s,e)=>s+(e.celiapp||0),0)+params.celiapp_total
+  const celiEntry=entries.find(e=>(e.celiapp||0)>0)
+  const celiTotal=celiEntry?celiEntry.celiapp:(params.celiapp_total||0)
   document.getElementById('home-subtitle').textContent=`${fmt(rh)}/sem · Dettes: ${fmt(totalDette)}`
   const pctUtilise=Math.max(0,Math.min(100,100-cs.pctLibre))
   const ringColor=pctUtilise>80?'var(--red)':pctUtilise>50?'var(--orange)':pctUtilise>30?'#FFCC00':'var(--green)'
@@ -471,6 +474,14 @@ function renderSaisie(){
         <div class="input-hint">Cible : ${fmt(params.dep_var_cible)}/sem</div>
       </div>
     </div>
+    <div class="section-title">Revenu spontané</div>
+    <div class="card">
+      <div class="input-wrap">
+        <label>Montant reçu ($) — cadeau, remboursement, boni, etc.</label>
+        <input type="number" inputmode="decimal" id="s-rev-spon" placeholder="0.00">
+        <div class="input-hint">Ce montant s'ajoutera à tes revenus de la semaine</div>
+      </div>
+    </div>
     <div class="section-title">Cartes de crédit</div>
     <div class="card">`
  
@@ -515,9 +526,9 @@ function renderSaisie(){
     <div class="section-title">CELIAPP</div>
     <div class="card">
       <div class="input-wrap">
-        <label>Cotisation CELIAPP cette semaine ($)</label>
-        <input type="number" inputmode="decimal" id="s-celi" placeholder="${params.celiapp_cible_h.toFixed(2)}" value="${params.celiapp_cible_h}">
-        <div class="input-hint">Cible : ${fmt(params.celiapp_cible_h)}/sem · Limite annuelle : 8 000.00 $</div>
+        <label>Solde réel CELIAPP ($)</label>
+        <input type="number" inputmode="decimal" id="s-celi" placeholder="0.00">
+        <div class="input-hint">Mets à jour quand tu reçois ton relevé · Limite annuelle : 8 000.00 $</div>
       </div>
     </div>
     <div class="section-title">Résumé en temps réel</div>
@@ -527,7 +538,7 @@ function renderSaisie(){
   <div style="height:8px;"></div>`
  
   document.getElementById('saisie-body').innerHTML=html
-  const inputs=['s-dep','s-ep',...params.cartes.flatMap(c=>[`a-${c.id}`,`p-${c.id}`])]
+  const inputs=['s-dep','s-ep','s-rev-spon',...params.cartes.flatMap(c=>[`a-${c.id}`,`p-${c.id}`])]
   inputs.forEach(id=>{ const el=document.getElementById(id); el&&el.addEventListener('input',updateResume) })
   updateResume()
 }
@@ -535,16 +546,17 @@ function renderSaisie(){
 function updateResume(){
   const dep=+(document.getElementById('s-dep')?.value||0)
   const ep=+(document.getElementById('s-ep')?.value||0)
-  const celi=+(document.getElementById('s-celi')?.value||0)
+  const revSpon=+(document.getElementById('s-rev-spon')?.value||0)
   const pays=params.cartes.reduce((s,c)=>s+(+(document.getElementById('p-'+c.id)?.value||0)),0)
-  const rh=rev_h(), fh=fact_h(), reste=rh-fh-dep-pays-ep-celi
+  const rh=rev_h(), fh=fact_h(), reste=rh+revSpon-fh-dep-pays-ep
   const rows=[
     ['Revenus fixes',rh,'var(--green)'],
+    ...(revSpon>0?[['+ Revenu spontané',revSpon,'var(--green)']]:
+    []),
     ['− Factures (part hebdo)',fh,'var(--tint)'],
     ['− Dépenses variables',dep,'var(--orange)'],
     ['− Paiements cartes',pays,'var(--red)'],
     ['− Épargne',ep,'var(--purple)'],
-    ['− CELIAPP',celi,'#1a7a4a'],
   ]
   const card=document.getElementById('resume-card'); if(!card) return
   card.innerHTML=rows.map(([l,v,c])=>`
@@ -563,13 +575,14 @@ function saveSaisie(){
   if(!date){ toast('Indique la semaine du…',false); return }
   const dep=+(document.getElementById('s-dep')?.value||0)
   const ep=+(document.getElementById('s-ep')?.value||0)
+  const revSpon=+(document.getElementById('s-rev-spon')?.value||0)
   const celi=+(document.getElementById('s-celi')?.value||0)
   const cartes=params.cartes.map(c=>({
     id:c.id,
     achats:+(document.getElementById('a-'+c.id)?.value||0),
     paiement:+(document.getElementById('p-'+c.id)?.value||0),
   }))
-  entries=[{id:Date.now(),date,dep_var:dep,epargne:ep,celiapp:celi,cartes},...entries]
+  entries=[{id:Date.now(),date,dep_var:dep,epargne:ep,celiapp:celi,rev_spon:revSpon,cartes},...entries]
   save(STORE_E,entries)
   toast('Semaine sauvegardée ✓')
   renderSaisie(); renderHome(); renderHist()
@@ -598,7 +611,8 @@ function renderHist(){
         <div style="color:var(--orange)">Dép. ${fmt(e.dep_var||0)}</div>
         <div style="color:var(--tint)">Paiements ${fmt(totalPay)}</div>
         <div style="color:var(--purple)">Épargne ${fmt(e.epargne||0)}</div>
-        ${e.celiapp?`<div style="color:#1a7a4a">CELIAPP ${fmt(e.celiapp)}</div>`:''}
+        ${e.celiapp?`<div style="color:var(--green)">CELIAPP solde ${fmt(e.celiapp)}</div>`:''}
+        ${e.rev_spon?`<div style="color:var(--green)">+ Revenu spontané ${fmt(e.rev_spon)}</div>`:''}
       </div>
       ${(e.cartes||[]).filter(c=>c.paiement>0||c.achats>0).map(c=>{
         const nom=params.cartes.find(x=>x.id===c.id)?.nom||c.id
@@ -728,15 +742,11 @@ function renderParams(){
         <label>Dépenses variables cible / semaine ($)</label>
         <input type="number" inputmode="decimal" id="pr-dep" value="${params.dep_var_cible}">
       </div>
+ 
     <div class="input-wrap">
-      <label>CELIAPP — cible / semaine ($)</label>
-      <input type="number" inputmode="decimal" id="pr-celi-h" value="${params.celiapp_cible_h}">
-      <div class="input-hint">8 000 $ / an ÷ 52 semaines = 153.85 $/sem recommandé</div>
-    </div>
-    <div class="input-wrap">
-      <label>CELIAPP — montant déjà cotisé cette année ($)</label>
-      <input type="number" inputmode="decimal" id="pr-celi-tot" value="${params.celiapp_total}">
-      <div class="input-hint">Montant cotisé avant de commencer à utiliser cette app</div>
+      <label>CELIAPP — Solde de départ ($)</label>
+      <input type="number" inputmode="decimal" id="pr-celi-tot" value="${params.celiapp_total||0}">
+      <div class="input-hint">Solde avant de commencer à utiliser cette app (sera remplacé dès que tu entres un solde réel dans Saisie)</div>
     </div>
     </div>
   </div>
@@ -773,11 +783,13 @@ function addCarte(){
 function saveParams(){
   params.epargne_h=+(document.getElementById('pr-ep')?.value||0)
   params.dep_var_cible=+(document.getElementById('pr-dep')?.value||0)
-  params.celiapp_cible_h=+(document.getElementById('pr-celi-h')?.value||0)
   params.celiapp_total=+(document.getElementById('pr-celi-tot')?.value||0)
   save(STORE_P,params)
   toast('Réglages sauvegardés ✓')
-  renderAll()
+  renderHome()
+  renderSaisie()
+  renderHist()
+  renderParams()
 }
  
 function renderAll(){ renderHome(); renderSaisie(); renderHist(); renderParams() }
