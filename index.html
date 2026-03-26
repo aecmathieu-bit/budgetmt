@@ -134,6 +134,32 @@ input:focus{outline:none;border-color:var(--tint)!important;box-shadow:0 0 0 3px
 .small-chip .l{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;}
 .small-chip .v{font-size:17px;font-weight:700;margin-top:4px;}
 .note{font-size:12px;color:var(--text2);line-height:1.35;}
+ 
+/* ── LOCK SCREEN ── */
+#lockscreen{position:fixed;inset:0;z-index:9999;background:#0B1622;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;transition:opacity .3s;}
+#lockscreen.hidden{opacity:0;pointer-events:none;}
+.lock-title{font-size:28px;font-weight:700;color:#F0F4FF;margin-bottom:6px;letter-spacing:-0.02em;}
+.lock-sub{font-size:14px;color:#7A9BBF;margin-bottom:40px;text-align:center;}
+.pin-dots{display:flex;gap:18px;margin-bottom:40px;}
+.pin-dot{width:18px;height:18px;border-radius:50%;border:2px solid #2A4A6A;background:transparent;transition:all .15s;}
+.pin-dot.filled{background:#00C2FF;border-color:#00C2FF;box-shadow:0 0 8px rgba(0,194,255,0.5);}
+.pin-dot.error{background:#FF4D6A;border-color:#FF4D6A;}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:280px;}
+.pin-btn{background:#162840;border:1px solid rgba(0,194,255,0.15);border-radius:50%;
+  width:72px;height:72px;font-size:24px;font-weight:600;color:#F0F4FF;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;margin:0 auto;
+  transition:background .15s,transform .1s;-webkit-appearance:none;}
+.pin-btn:active{background:#1E3A5A;transform:scale(0.93);}
+.pin-btn.del{font-size:18px;color:#7A9BBF;}
+.pin-btn.empty{background:transparent;border:none;pointer-events:none;}
+.faceid-btn{margin-top:24px;background:none;border:none;color:#00C2FF;font-size:14px;
+  font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 20px;
+  border-radius:20px;border:1px solid rgba(0,194,255,0.3);}
+.faceid-btn svg{width:22px;height:22px;}
+.lock-error{color:#FF4D6A;font-size:13px;margin-top:-28px;margin-bottom:12px;min-height:18px;}
+.setup-step{font-size:13px;color:#00C2FF;margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;}
 </style>
 </head>
 <body>
@@ -794,7 +820,172 @@ function saveParams(){
  
 function renderAll(){ renderHome(); renderSaisie(); renderHist(); renderParams() }
  
-window.addEventListener('load',init)
+ 
+// ── PIN & FACE ID ──────────────────────────────
+const PIN_KEY = 'mb_pin'
+let pinBuffer = ''
+let lockMode = 'unlock' // 'unlock' | 'setup1' | 'setup2'
+let pinSetup1 = ''
+let unlocked = false
+ 
+function hashPin(pin){
+  // Simple obfuscation — not crypto but enough for local storage
+  return pin.split('').map((c,i)=>String.fromCharCode(c.charCodeAt(0)^(73+i))).join('')
+}
+ 
+function initLock(){
+  const stored = load(PIN_KEY)
+  if(!stored){
+    lockMode = 'setup1'
+    document.getElementById('lock-title').textContent = '🔒 Mon Budget'
+    document.getElementById('setup-step').textContent = 'Étape 1 / 2'
+    document.getElementById('lock-sub').textContent = 'Créez votre code PIN à 4 chiffres'
+    document.getElementById('faceid-btn').style.display = 'none'
+  } else {
+    lockMode = 'unlock'
+    document.getElementById('lock-title').textContent = '🔒 Mon Budget'
+    document.getElementById('setup-step').textContent = ''
+    document.getElementById('lock-sub').textContent = 'Entrez votre code PIN'
+    // Show Face ID button if available
+    if(window.PublicKeyCredential) document.getElementById('faceid-btn').style.display = 'flex'
+    // Try Face ID automatically on load
+    setTimeout(tryFaceID, 600)
+  }
+}
+ 
+function pinPress(digit){
+  if(pinBuffer.length >= 4) return
+  pinBuffer += digit
+  updateDots()
+  if(pinBuffer.length === 4) setTimeout(checkPin, 120)
+}
+ 
+function pinDel(){
+  pinBuffer = pinBuffer.slice(0,-1)
+  updateDots()
+  document.getElementById('lock-error').textContent = ''
+  updateDots()
+}
+ 
+function updateDots(state=''){
+  for(let i=0;i<4;i++){
+    const dot = document.getElementById('d'+i)
+    dot.className = 'pin-dot'
+    if(i < pinBuffer.length) dot.classList.add(state||'filled')
+  }
+}
+ 
+function checkPin(){
+  if(lockMode === 'setup1'){
+    pinSetup1 = pinBuffer
+    pinBuffer = ''
+    lockMode = 'setup2'
+    document.getElementById('setup-step').textContent = 'Étape 2 / 2'
+    document.getElementById('lock-sub').textContent = 'Confirmez votre code PIN'
+    updateDots()
+    return
+  }
+  if(lockMode === 'setup2'){
+    if(pinBuffer === pinSetup1){
+      save(PIN_KEY, hashPin(pinBuffer))
+      unlock()
+    } else {
+      showError('Les codes ne correspondent pas')
+      pinBuffer = ''
+      pinSetup1 = ''
+      lockMode = 'setup1'
+      document.getElementById('setup-step').textContent = 'Étape 1 / 2'
+      document.getElementById('lock-sub').textContent = 'Créez votre code PIN à 4 chiffres'
+      updateDots()
+    }
+    return
+  }
+  // unlock mode
+  const stored = load(PIN_KEY)
+  if(hashPin(pinBuffer) === stored){
+    unlock()
+  } else {
+    showError('Code incorrect')
+    updateDots('error')
+    setTimeout(()=>{ pinBuffer=''; updateDots(); document.getElementById('lock-error').textContent='' }, 700)
+  }
+}
+ 
+function showError(msg){
+  document.getElementById('lock-error').textContent = msg
+  // Shake animation
+  const ls = document.getElementById('lockscreen')
+  ls.style.transform = 'translateX(8px)'
+  setTimeout(()=>ls.style.transform='translateX(-8px)',80)
+  setTimeout(()=>ls.style.transform='translateX(4px)',160)
+  setTimeout(()=>ls.style.transform='translateX(0)',240)
+}
+ 
+function unlock(){
+  unlocked = true
+  const ls = document.getElementById('lockscreen')
+  ls.style.transition = 'opacity .35s'
+  ls.style.opacity = '0'
+  setTimeout(()=>ls.style.display='none', 350)
+}
+ 
+async function tryFaceID(){
+  if(!window.PublicKeyCredential) return
+  try {
+    const result = await navigator.credentials.get({
+      publicKey: {
+        challenge: new Uint8Array(32),
+        timeout: 20000,
+        userVerification: 'required',
+        rpId: window.location.hostname || 'localhost',
+      }
+    })
+    if(result) unlock()
+  } catch(e) {
+    // Face ID failed or not set up — fall back to PIN silently
+  }
+}
+ 
+// Init lock on load (before init())
+window.addEventListener('load', ()=>{ initLock(); init(); })
+ 
 </script>
+ 
+<!-- ── LOCK SCREEN ── -->
+<div id="lockscreen">
+  <div class="lock-title" id="lock-title">🔒 Mon Budget</div>
+  <div class="setup-step" id="setup-step"></div>
+  <div class="lock-sub" id="lock-sub">Entrez votre code PIN</div>
+  <div class="pin-dots" id="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="lock-error" id="lock-error"></div>
+  <div class="pin-pad">
+    <button class="pin-btn" onclick="pinPress('1')">1</button>
+    <button class="pin-btn" onclick="pinPress('2')">2</button>
+    <button class="pin-btn" onclick="pinPress('3')">3</button>
+    <button class="pin-btn" onclick="pinPress('4')">4</button>
+    <button class="pin-btn" onclick="pinPress('5')">5</button>
+    <button class="pin-btn" onclick="pinPress('6')">6</button>
+    <button class="pin-btn" onclick="pinPress('7')">7</button>
+    <button class="pin-btn" onclick="pinPress('8')">8</button>
+    <button class="pin-btn" onclick="pinPress('9')">9</button>
+    <button class="pin-btn empty"></button>
+    <button class="pin-btn" onclick="pinPress('0')">0</button>
+    <button class="pin-btn del" onclick="pinDel()">⌫</button>
+  </div>
+  <button class="faceid-btn" id="faceid-btn" onclick="tryFaceID()" style="display:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M9 3H5a2 2 0 00-2 2v4m6-6h6m-6 0v18m0 0H5a2 2 0 01-2-2v-4m6 6h6m0 0h4a2 2 0 002-2v-4m0-10v4m0-4h-4"/>
+      <circle cx="9" cy="10" r="1" fill="currentColor"/>
+      <circle cx="15" cy="10" r="1" fill="currentColor"/>
+      <path d="M9 16s1 1.5 3 1.5 3-1.5 3-1.5"/>
+    </svg>
+    Face ID
+  </button>
+</div>
 </body>
 </html>
